@@ -1,7 +1,6 @@
 package engine;
 
 import java.util.ArrayList;
-
 import com.thoughtworks.xstream.XStream;
 
 public class Settings extends Config
@@ -10,7 +9,14 @@ public class Settings extends Config
 	
 	public ArrayList<Operator> Operators;
 	public ArrayList<Operand> Operands;
-	public int i;
+	public int InitPopulationSize;
+	public int PopulationSize;
+	public float MutationProbability;
+	public float CrossoverProbability;
+	public int MaxDuration;
+	public int MaxIterations;
+	public int MaxTreeDepth;
+	public int KeeperThreshhold;
 	
 	protected Settings() {
 		// Exists only to defeat instantiation.
@@ -20,7 +26,7 @@ public class Settings extends Config
 		return get("settings.config");
 	}
 	
-	public static Settings get(String filename) {
+	public static Settings get(String configName) {
 		
 		if(instance == null) {
 			try
@@ -29,8 +35,8 @@ public class Settings extends Config
 				xstream.alias("Settings", Settings.class);
 				xstream.alias("Operator", Operator.class);
 				xstream.alias("Operand", Operand.class);
-							
-				instance = (Settings)xstream.fromXML(read(filename));
+															
+				instance = (Settings)xstream.fromXML(read(configName));
 			}
 			catch (Exception ex)
 			{
@@ -38,7 +44,5 @@ public class Settings extends Config
 			}
 		}
 		return instance;
-			
-
 	}
 }
