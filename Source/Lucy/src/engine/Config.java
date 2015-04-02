@@ -10,7 +10,7 @@ public abstract class Config {
 	{
 		try
 		{
-			File configfile = new File(".\\bin\\config\\" + filename);
+			File configfile = new File("src\\config\\" + filename + ".xml");
 			
 			BufferedReader br = new BufferedReader(new FileReader(configfile));
 			String line;
@@ -24,6 +24,7 @@ public abstract class Config {
 		}
 		catch (Exception ex)
 		{
+			// log exception here
 			return null;
 		}
 	}
