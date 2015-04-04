@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import unittest.TestSettings;
-
 import com.thoughtworks.xstream.XStream;
 
 public class Settings extends Config
 {
-	private static final Logger logger = Logger.getLogger( TestSettings.class.getName() );
+	private static final Logger logger = Logger.getLogger( Settings.class.getName() );
 	
 	private static Settings instance = null;
 	
