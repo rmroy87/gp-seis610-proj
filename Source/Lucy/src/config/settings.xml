@@ -52,8 +52,5 @@
 		<Operand>
 			<value>9</value>
 		</Operand>
-		<Operand>
-			<value>x</value>
-		</Operand>
 	</Operands>
 </Settings>
