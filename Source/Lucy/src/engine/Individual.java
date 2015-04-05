@@ -73,4 +73,10 @@ public class Individual {
 		return IndividualString;
 	}
 	
+	/* Kevin Added */
+	public float getFitnessValue()
+	{
+		return FitnessValue;
+	}
+	
 }
