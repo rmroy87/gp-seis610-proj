@@ -107,7 +107,7 @@ public class BinaryNode {
 	// Resolve the NODE, and it's associated children nodes for a
 	// given value of X
 	//
-	public float ResolveNodeValue(int X_Value){
+	public float ResolveNodeValue(float X_Value){
 		float LeftNode;
 		float RightNode;
 		float ResolvedValue = (float) 0.0;

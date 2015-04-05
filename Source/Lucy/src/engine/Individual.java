@@ -16,32 +16,12 @@ public class Individual {
 	
 	public Individual(){
 		Settings settings = Settings.get();
-		Operand  operand;
-		//Operators operators = settings.Operators;
-		int cntOperands   = settings.Operands.size();
-		int cntOperators  = settings.Operators.size();
-		String tempOperand; 
-		String tempOperator; 
-		
-		String[] myOperands;
-		String[] myOperators;
-		
-		myOperands = new String[cntOperands];
-		myOperators = new String[cntOperators];
 		
 		FitnessCalculated = false;
-		FitnessValue = (float) 1.0;
+		FitnessValue = (float) 0.0;
 		IndividualString = null;
-		int x = 0;
 		
-		
-	
-		//System.out.println("Individual Construct:");
-		//System.out.println(tempOperand);
-		//System.out.println(tempOperator);
-		
-		TheBinaryTree = new BinaryTree(settings.MaxTreeDepth);
-		
+		TheBinaryTree = new BinaryTree(settings.MaxTreeDepth);		
 	}
 	
 	/*
@@ -50,9 +30,31 @@ public class Individual {
 	 * save for future reference.
 	 */
 	public float CalculateFitness(){
-	
+		Training trainData = Training.get();
+		float tempYData;
+		
 		if(FitnessCalculated == false){
-			FitnessValue = (float) 8.6;
+			FitnessValue = (float) 0.0;
+			//System.out.print("Fitness Calc:");
+			//
+			// Go through each ordered pair set of the training
+			// Data.
+			for(OrderedPair pair : trainData.OrderedPairs)  {
+				//System.out.print(String.format("{FI[%4.2f]", FitnessValue));
+				tempYData = TheBinaryTree.ResolveBinaryTree(pair.X);
+				//
+				// Take the absolute value of the difference between
+				// the resolved value and the Y value.
+				if(tempYData > pair.Y){
+					FitnessValue = FitnessValue + (tempYData - pair.Y);	
+				}else{
+					FitnessValue = FitnessValue + (pair.Y - tempYData);	
+				}
+				//System.out.print(String.format("FO[%4.2f]->X[%4.2f]C[%4.2f]Y[%4.2f]} ", 
+				//		FitnessValue, pair.X, tempYData, pair.Y));
+			}
+			//System.out.println();
+			FitnessCalculated = true;		
 		}
 		
 		return FitnessValue;

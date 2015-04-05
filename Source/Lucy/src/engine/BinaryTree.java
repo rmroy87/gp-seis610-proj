@@ -40,7 +40,7 @@ public class BinaryTree {
 	//
 	// Resolve the Binary Tree for a given value of Y
 	//
-	public float ResolveBinaryTree(int X_Value){		
+	public float ResolveBinaryTree(float X_Value){		
 		return TreeRoot.ResolveNodeValue(X_Value);
 	}
 	
