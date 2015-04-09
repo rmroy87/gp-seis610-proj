@@ -21,7 +21,9 @@ public class Individual {
 		FitnessValue = (float) 0.0;
 		IndividualString = null;
 		
-		TheBinaryTree = new BinaryTree(settings.MaxTreeDepth);		
+		TheBinaryTree = new BinaryTree(settings.MaxTreeDepth);	
+		
+		CalculateFitness();
 	}
 	
 	/*
@@ -29,33 +31,32 @@ public class Individual {
 	 * this individual.  It will be calculated just one time, and
 	 * save for future reference.
 	 */
-	public float CalculateFitness(){
+	private float CalculateFitness(){
 		Training trainData = Training.get();
 		float tempYData;
-		
-		if(FitnessCalculated == false){
-			FitnessValue = (float) 0.0;
-			//System.out.print("Fitness Calc:");
+				
+		FitnessValue = (float) 0.0;
+		//System.out.print("Fitness Calc:");
+		//
+		// Go through each ordered pair set of the training
+		// Data.
+		for(OrderedPair pair : trainData.OrderedPairs)  {
+			//System.out.print(String.format("{FI[%4.2f]", FitnessValue));
+			tempYData = TheBinaryTree.ResolveBinaryTree(pair.X);
 			//
-			// Go through each ordered pair set of the training
-			// Data.
-			for(OrderedPair pair : trainData.OrderedPairs)  {
-				//System.out.print(String.format("{FI[%4.2f]", FitnessValue));
-				tempYData = TheBinaryTree.ResolveBinaryTree(pair.X);
-				//
-				// Take the absolute value of the difference between
-				// the resolved value and the Y value.
-				if(tempYData > pair.Y){
-					FitnessValue = FitnessValue + (tempYData - pair.Y);	
-				}else{
-					FitnessValue = FitnessValue + (pair.Y - tempYData);	
-				}
-				//System.out.print(String.format("FO[%4.2f]->X[%4.2f]C[%4.2f]Y[%4.2f]} ", 
-				//		FitnessValue, pair.X, tempYData, pair.Y));
+			// Take the absolute value of the difference between
+			// the resolved value and the Y value.
+			if(tempYData > pair.Y){
+				FitnessValue = FitnessValue + (tempYData - pair.Y);	
+			}else{
+				FitnessValue = FitnessValue + (pair.Y - tempYData);	
 			}
-			//System.out.println();
-			FitnessCalculated = true;		
+			//System.out.print(String.format("FO[%4.2f]->X[%4.2f]C[%4.2f]Y[%4.2f]} ", 
+			//		FitnessValue, pair.X, tempYData, pair.Y));
 		}
+		//System.out.println();
+		FitnessCalculated = true;		
+		
 		
 		return FitnessValue;
 	}
@@ -73,9 +74,16 @@ public class Individual {
 		return IndividualString;
 	}
 	
-	/* Kevin Added */
+	/* 
+	 * Method to simply get the Fitness, if it has not been calculated
+	 * then calculate it quickly
+	 */
 	public float getFitnessValue()
 	{
+		if(FitnessCalculated == false){
+			CalculateFitness();
+		}
+		
 		return FitnessValue;
 	}
 	
