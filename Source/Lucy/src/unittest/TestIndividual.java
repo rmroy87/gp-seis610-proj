@@ -27,7 +27,7 @@ public class TestIndividual {
 			System.out.print(String.format("Individual[%d]--> f(x) = ", i));			
 			System.out.print(population[i].ToString());
 			System.out.println();
-			calcFitness = population[i].CalculateFitness();
+			calcFitness = population[i].getFitnessValue();
 			System.out.print(String.format("Individual[%d]--> Fitness = %4.2f ",i, calcFitness ));
 			System.out.println();
 			System.out.println();
