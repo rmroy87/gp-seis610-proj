@@ -14,6 +14,9 @@ public class Individual {
 	private String    IndividualString;  // Binary Tree converted to a string
 	private BinaryTree  TheBinaryTree;   // Binary tree for this individual
 	
+	/*
+	*   Basic Constructor, will randomly generate an Individual
+	*/
 	public Individual(){
 		Settings settings = Settings.get();
 		
@@ -25,6 +28,77 @@ public class Individual {
 		
 		CalculateFitness();
 	}
+	
+	/*
+	*   The Deep Copy/Clone Constructor, willperform a deep copy of the
+	*   Individual.
+	*/
+	private Individual(Individual toClone){		
+		
+		FitnessCalculated 	= toClone.FitnessCalculated;
+		FitnessValue 		= toClone.FitnessValue;
+		IndividualString 	= null;		
+		TheBinaryTree 		= toClone.TheBinaryTree.DeepCopyClone();			
+	}
+	
+	/*
+	*   Get a Random Binary Node from this Individuals Binary Tree, it will Clone the
+	*   Binary NODE.
+	*/
+	public BinaryNode GetBinaryNodeRandomly(){	
+		return TheBinaryTree.GetBinaryNodeRandomly();
+	}
+	
+	/*
+	*   Insert a Binary Node randomly for this Individuals Binary Tree, the NODE must be
+	*   a complete NODE, and not a reference to another node.
+	*/
+	public int InsertBinaryNodeRandomly(BinaryNode nodeToInsert){
+		
+		/*
+		 * Insert the Node into the Binary Tree
+		 */
+		TheBinaryTree.InsertBinaryNodeRandomly(nodeToInsert);		
+		/*
+		 * Calculate the NEW Fitness for this Individual
+		 */
+		CalculateFitness();
+		
+		IndividualString = TheBinaryTree.ResolveNodeString();
+		
+		return 0;
+	}
+	
+	/*
+	*   Modify this Individual in a Random fashion.  Think of a 
+	*   mutation.
+	*/
+	public int ModifyIndividualRandomly(){		
+		/*
+		 * Insert the Node into the Binary Tree
+		 */
+		TheBinaryTree.ModifyTreeRandomly();		
+		/*
+		 * Calculate the NEW Fitness for this Individual
+		 */
+		CalculateFitness();
+		
+		IndividualString = TheBinaryTree.ResolveNodeString();
+		
+		return 0;
+	}
+	
+	/*
+	 * Make a complete deep copy CLONE of this Individual.  That means to actually
+	 * COPY each of the sub objects for this individual, and not use their
+	 * references.
+	 */
+	public Individual DeepCopyClone(){
+		Individual clonedCopy = new Individual(this);		
+			
+		return clonedCopy;
+	}
+	
 	
 	/*
 	 * Method used to calculate the actual fitness value for
