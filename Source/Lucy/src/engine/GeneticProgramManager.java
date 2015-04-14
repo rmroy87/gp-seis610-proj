@@ -24,7 +24,7 @@ public class GeneticProgramManager {
 			
 			// Initial Population
 			StubbedPopulation pop = new StubbedPopulation();
-			pop.evaluatePopulationFitness();
+			//pop.evaluatePopulationFitness();
 			for(Individual i : pop)  {
 				logger.log(Level.FINER, "Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 			}
@@ -34,7 +34,7 @@ public class GeneticProgramManager {
 				
 				// next generation
 				pop = new StubbedPopulation(pop);
-				pop.evaluatePopulationFitness();
+				//pop.evaluatePopulationFitness();
 				for(Individual i : pop)  {
 					logger.log(Level.FINER, "Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 				}

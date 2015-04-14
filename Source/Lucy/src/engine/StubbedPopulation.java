@@ -26,14 +26,16 @@ public class StubbedPopulation extends ArrayList<Individual> {
 		this.add(new Individual());
 	}
 	
+	/*
 	public void evaluatePopulationFitness()
 	{
 		for(Individual i : this)  {
-			   i.CalculateFitness();
+			   i.
 		}
 		// for stub purposes, I am assuming bestIndividual is the first
 		bestIndividual = 1;
 	}
+	*/
 	
 	public Individual getBestIndividual()
 	{
