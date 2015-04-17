@@ -1,19 +1,15 @@
 package engine;
 
 public class MutationOperator {
+	
+		Individual parent1 = new Individual();
+		Individual parent2 = new Individual();
+		Individual mutatedIndividual1 = parent1.DeepCopyClone();
+		Individual mutatedIndividual2 = parent2.DeepCopyClone();
 		
-	    // Mutate an individual
-	    private static void mutate(Individual indiv) {
-	        // Loop through nodes
-	        for (int i = 0; i < indiv.size(); i++) {
-	            if (java.util.Random() <= mutationRate) {
-	                // Create random node
-	                byte gene = (byte) java.util.Random());
-					indiv.setNode(i, node);
-	            }
-	        }
-	    }
-
+		public MutationOperator( )
+		{
+		mutatedIndividual1.ModifyIndividualRandomly();
+		mutatedIndividual2.ModifyIndividualRandomly();
+		}		
 	}
-
-}
