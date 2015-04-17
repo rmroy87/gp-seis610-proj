@@ -1,3 +1,4 @@
+/*
 package unittest;
 
 import java.io.FileInputStream;
@@ -27,3 +28,4 @@ public class TestTraining {
 	}
 	
 }
+*/
