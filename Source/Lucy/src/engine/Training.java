@@ -1,3 +1,4 @@
+/*
 package engine;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class Training extends Config
 		logger.log(Level.CONFIG, sb.toString());
 	}
 }
+*/
 	
 		
 

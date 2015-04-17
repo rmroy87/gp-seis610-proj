@@ -59,7 +59,6 @@ public class GeneticProgramManager {
 	{
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		Settings.get();
-		Training.get();
 		
 		DateFormat dateFormat = new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss");
 		

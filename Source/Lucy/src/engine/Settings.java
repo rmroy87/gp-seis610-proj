@@ -22,13 +22,14 @@ public class Settings extends Config
 	public int MaxIterations;
 	public int MaxTreeDepth;
 	public int KeeperThreshhold;
+	public ArrayList<OrderedPair> Training;
 	
 	protected Settings() {
 		// Exists only to defeat instantiation.
 	}
 	
 	public static Settings get() {
-		return get("settings");
+		return get("src\\config\\settings.xml");
 	}
 	
 	public static Settings get(String configName) {
@@ -40,6 +41,7 @@ public class Settings extends Config
 				xstream.alias("Settings", Settings.class);
 				xstream.alias("Operator", Operator.class);
 				xstream.alias("Operand", Operand.class);
+				xstream.alias("OrderedPair", OrderedPair.class);
 															
 				instance = (Settings)xstream.fromXML(read(configName));
 				
@@ -49,11 +51,16 @@ public class Settings extends Config
 			{		    
 				logger.log( 
 						Level.SEVERE, 
-						MessageFormatter.exception(String.format("Failed to load settings from %s.xml",configName), ex));
+						MessageFormatter.exception(String.format("Failed to load settings from %s",configName), ex));
 				return null;
 			}
 		}
 		return instance;
+	}
+	
+	public static Settings reget(String fileName) {
+		instance = null;
+		return get(fileName);
 	}
 	
 	private static void logSettings(Settings settings)
