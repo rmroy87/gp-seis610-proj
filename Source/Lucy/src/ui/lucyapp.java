@@ -1,55 +1,18 @@
 package ui;
 
-import java.awt.EventQueue;
-import java.awt.List;
-import java.awt.Toolkit;
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Vector;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.SwingWorker;
-import javax.swing.Timer;
-
-import engine.GeneticProgramManager;
-import engine.MessageFormatter;
-import engine.Operand;
-import engine.Operator;
-import engine.OrderedPair;
-import engine.Settings;
-
-import java.awt.CardLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-
-import java.awt.Color;
-
-import javax.swing.UIManager;
-import javax.swing.AbstractAction;
-
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-
-import java.awt.Font;
-
-import javax.swing.JTextArea;
-import javax.swing.JProgressBar;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.util.Vector;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import engine.*;
 
 public class lucyapp {
 
@@ -62,18 +25,21 @@ public class lucyapp {
 	private JFormattedTextField maxDurationTextField = new JFormattedTextField();
 	private JFormattedTextField maxTreeDepthTextField = new JFormattedTextField();
 	private JFormattedTextField keeperTextField = new JFormattedTextField();
-	private DefaultTableModel operandmodel = new DefaultTableModel();
 	private JTable operandtbl = new JTable();
-	private DefaultTableModel operatormodel = new DefaultTableModel();
 	private JTable operatortbl = new JTable();
-	private DefaultTableModel trainingmodel = new DefaultTableModel();
 	private JTable trainingtbl = new JTable();
 	File selectedFile;
+	JTextArea textArea = new JTextArea();
+	JProgressBar progressBar = new JProgressBar(0,100);
+	String lastfolder;
+	private static Logger logger = Logger.getLogger( lucyapp.class.getName() );
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -90,6 +56,19 @@ public class lucyapp {
 	 * Create the application.
 	 */
 	public lucyapp() {
+		
+		try {
+			LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -244,29 +223,56 @@ public class lucyapp {
 		card1.add(trainingsp);
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setText("settings.xml");
 		textField_1.setColumns(10);
-		textField_1.setBounds(20, 42, 504, 20);
+		textField_1.setBounds(20, 42, 488, 20);
+		//textField_1.setEnabled(false);
 		card1.add(textField_1);
 		
-		JButton button = new JButton("Find");
+		JButton button = new JButton("browse");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-				//fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+				
+				if (lastfolder != null)
+				{
+					fileChooser.setCurrentDirectory(new File(lastfolder));
+				}
 				fileChooser.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				int result = fileChooser.showOpenDialog(bottomPanel);
-				if (result == JFileChooser.APPROVE_OPTION) {
-				    File selectedFile = fileChooser.getSelectedFile();
-				    Settings.reget(selectedFile.getAbsolutePath());
-				    textField_1.setText(selectedFile.getAbsolutePath());
-				    loadSettingsUI();
+				boolean validsettings = false;
+				while (!validsettings)
+				{
+					int result = fileChooser.showOpenDialog(bottomPanel);
+					if (result == JFileChooser.APPROVE_OPTION) {
+					    File selectedFile = fileChooser.getSelectedFile();
+	
+					    Settings settings = null;
+					    try {
+					    settings = Settings.reget(selectedFile.getAbsolutePath());
+					    lastfolder = selectedFile.getAbsolutePath();
+					    validsettings = true;
+						textField_1.setText(selectedFile.getAbsolutePath());
+					    loadSettingsUI();
+					    
+					    } catch (Exception ex) { }
+					    if (settings == null)
+					    {
+					    	JOptionPane.showMessageDialog(frame, "Invalid settings file.  Please select another file.");
+					    }
+					}
+					else if (result == JFileChooser.CANCEL_OPTION)
+					{
+						Settings.reget(Settings.lastFile);
+						loadSettingsUI();
+						return;
+					}
 				}
 			}
-
 		});
+		
 		button.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button.setBounds(534, 41, 54, 23);
+		button.setBounds(518, 41, 70, 23);
 		card1.add(button);
 		
 		JLabel lblConfiguration = new JLabel("Configuration:");
@@ -281,8 +287,7 @@ public class lucyapp {
 		lblExecution.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 17));
 		lblExecution.setBounds(10, 251, 241, 21);
 		card1.add(lblExecution);
-		
-		JTextArea textArea = new JTextArea();
+
 		textArea.setBackground(new Color(255, 255, 255));
 		
 		JScrollPane resultsp = new JScrollPane(textArea);
@@ -291,7 +296,6 @@ public class lucyapp {
 		resultsp.setLocation(20, 308);
 		card1.add(resultsp);
 		
-		JProgressBar progressBar = new JProgressBar(0,100);
 		progressBar.setBounds(101, 283, 487, 14);
 		
 	    ActionListener updateProBar = new ActionListener() {
@@ -349,32 +353,27 @@ public class lucyapp {
 
 	}
 	
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-
-		}
-	}
-	
-
 	private void loadSettingsUI() {
-		initPopulationTextField.setText(Integer.toString(Settings.get().InitPopulationSize));
-		populationTextField.setText(Integer.toString(Settings.get().PopulationSize));
-		mutationProbabilityTextField.setText(Float.toString(Settings.get().MutationProbability));
-		crossoverProbabilityTextField.setText(Float.toString(Settings.get().CrossoverProbability));
-		maxDurationTextField.setText(Float.toString(Settings.get().MaxDuration));
-		maxTreeDepthTextField.setText(Integer.toString(Settings.get().MaxTreeDepth));
-		keeperTextField.setText(Integer.toString(Settings.get().KeeperThreshhold));
+
+		Settings settings = Settings.get();
+		
+		textArea.setText("");
+		progressBar.setValue(0);
+		
+		initPopulationTextField.setText(Integer.toString(settings.InitPopulationSize));
+		populationTextField.setText(Integer.toString(settings.PopulationSize));
+		mutationProbabilityTextField.setText(Float.toString(settings.MutationProbability));
+		crossoverProbabilityTextField.setText(Float.toString(settings.CrossoverProbability));
+		maxDurationTextField.setText(Float.toString(settings.MaxDuration));
+		maxTreeDepthTextField.setText(Integer.toString(settings.MaxTreeDepth));
+		keeperTextField.setText(Integer.toString(settings.KeeperThreshhold));
 		
 		Vector<Vector> rowData;
 		Vector<String> columnNames;
 		
 		// Operand Panel on Card1
 		rowData = new Vector<Vector>();
-		for(Operand op : Settings.get().Operands)  {
+		for(Operand op : settings.Operands)  {
 			Vector<String> row = new Vector<String>();
 			row.addElement(op.getValue());
 			rowData.addElement(row);
@@ -390,7 +389,7 @@ public class lucyapp {
 		
 		// Operator Panel on Card1
 		rowData = new Vector<Vector>();
-		for(Operator op : Settings.get().Operators)  {
+		for(Operator op : settings.Operators)  {
 			Vector<String> row = new Vector<String>();
 			row.addElement(op.getValue());
 			rowData.addElement(row);
@@ -406,7 +405,7 @@ public class lucyapp {
 		
 		// Training Panel on Card1
 		rowData = new Vector<Vector>();
-		for(OrderedPair pair : Settings.get().Training)  {
+		for(OrderedPair pair : settings.Training)  {
 			Vector<String> row = new Vector<String>();
 			row.addElement(Float.toString(pair.X));
 			row.addElement(Float.toString(pair.X));
