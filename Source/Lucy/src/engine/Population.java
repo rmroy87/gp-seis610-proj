@@ -1,65 +1,149 @@
 package engine;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 
-public class Population {
+public class Population extends ArrayList<Individual> {
+	  
+	  private int N;  // number of Individuals
+	  private int CrossoverSize; // number of Individuals to crossover 
+	  private int MutateSize;    // number of Individuals to mutate   
+	  private Individual[] individuals;    // population of Individuals
+	  private double[] probabilities;     // selection probabilities 
+	  private int[] population;           // selected Individuals
+	  private int populationSize;        // size of the population --need to figure out if this is size of population
+	  private double BestFitnessValue;    // fitness of best chromosome getBestFitnessValueValue
+	  private int BestIndividual;         // index of the most fit chromosome getBestIndividual
+	  private Random rand; // random generator
+	  private int minimization;    
+    
+	  public Population()
+	  { 
+		Settings settings = Settings.get();
+		
+		//creates initial population
+		individuals = new Individual[settings.InitPopulationSize];
+		
+			for(int i = 0; i < settings.InitPopulationSize; i++){					
+				individuals[i] = new Individual();
+			}
 
-	    	
-		    int UseInitPopulation= 1;
-		    
-			Individual[] individuals;
-		    
-		    // Build the population
-		    public Population() {
-		    	
-		    	
-		    	if(UseInitPopulation != 0) // Checking to see if the initial population has been built yet
-		    		{individuals = new Individual[Settings.InitPopulationSize];
-		    		// Loop and create individuals
-		            for (int i = 0; i < Settings.InitPopulationSize; i++) {
-		                Individual NewIndividual = new Individual();
-		                NewIndividual.CreateIndividual();
-		                SetIndividual(i, NewIndividual);
-		                UseInitPopulation=0;}
-		    		} else    //Initial population has already been created so use Population size
-		    		{individuals = new Individual[Settings.PopulationSize];
-		    		// Loop and create individuals
-		            for (int i = 0; i < Settings.PopulationSize; i++) {
-		                Individual NewIndividual = new Individual();
-		                NewIndividual.CreateIndividual();
-		                SetIndividual(i, NewIndividual);
-		            }
-		    	}    
-		    }
+		/*
+		* calculate the number of individuals to crossover
+		*/
+	    CrossoverSize = (int)(settings.CrossoverProbability*settings.PopulationSize); 
+	      /** needs to be a multiple of 2 */
+	      if (CrossoverSize % 2 != 0)
+		CrossoverSize++;
+	    
+	    /*
+		* calculate the number of individuals to mutate
+		*/
+	    MutateSize = (int)(settings.MutationProbability*settings.PopulationSize);
+	  }
+	  
 
-	}
-	 	    
-			// Get individual and fitness
-		    public Individual GetIndividual(int index) {
-		        return individuals[index];
-		    }
+	    /*
+		* sort individuals by highest fitness value
+		*/
+	  private void selectBest(int n) 
+	  {
+	    populationSize = n ;
+	    population = new int[populationSize];
 
-		  //sort individuals by fitness in array
-	        public Individual getFittest() {
-	            java.util.Arrays.sort(individuals, new java.util.Comparator<Individual>() {
-	                @Override
-	                public int compare(Individual i1, Individual i2) {
-	                    // return -1 if i1 < i2, 1 if i1 > i2, or 0 if equal
-	                    if (i1.GetFitness() > i2.GetFitness())
-	                        return 1;
-	                    if (i1.GetFitness() < i2.GetFitness())
-	                        return -1;
-	                    else
-	                        return 0;
-	                }});
-	            return individuals[0];
-	        }
-	        
+	    double[] fitnessValues = new double[N];
+	    for (int i = 0; i < N; i++)
+	      fitnessValues[i] = individuals[i].getFitnessValue();
+	  
+	    FitnessSelectionOperator.selectBest(fitnessValues, N,  
+					population, populationSize);
+	  }
 
 
-		    // Save individual
-		    public void SetIndividual(int index, Individual indiv) {
-		        individuals[index] = indiv;
-		    }
-	}
+	    /*
+		* probability of being selected 
+		*/
+	  private void selectProb(int n)
+	  {
+    // compute individual selection probabilities based on fitness
+	    computeProbabilities();
+	    
+	    populationSize = n;
+	    population = new int[populationSize];
+	    FitnessSelectionOperator.selectProb(N, probabilities, population, populationSize, rand);
+	  }
 
+	    /*
+		* associate probability with individuals
+		*/
+	  private void computeProbabilities()
+	  {
+
+	    double overallProb = 0.0;
+	    for (int j = 0; j < N; j++)
+	      {
+		  // want the smallest fitness value have the greatest probability
+		 probabilities[j] = 1.0 / individuals[j].getFitnessValue();
+		
+		  probabilities[j] = individuals[j].getFitnessValue();
+		
+		overallProb += probabilities[j];
+	      }
+	  
+	    // make the probabilities with sum equal to 1
+	    for (int j = 0; j < N; j++)
+	      probabilities[j] /= overallProb;
+
+	    for (int j = 1; j < N - 1; j++)
+	      probabilities[j] += probabilities[j - 1];
+	    probabilities[N - 1] = 1.0;
+
+	  }
+
+		/*
+		 * probability of individual to be selected for crossover
+		 */		
+	  private void selectToCrossover()
+	  {
+	    selectProb(CrossoverSize);
+	  }
+
+		/*
+		 * probability of individual to be selected for mutation
+		 */		
+	  private void selectToMutate()
+	  {	    
+	      selectProb(MutateSize); 
+	  }
+
+
+		/*
+		 * select keepers based on probability
+		 */	
+	  private void selectToKeep()
+	  {	      
+	    //  selectProb(N - #crossover - #mutate);
+	    selectBest(N - CrossoverSize - MutateSize);
+	  }
+
+		/*
+		 * find individual with best fitness
+		 */	
+	  private void findBestFitnessValue()
+	  {
+	    BestFitnessValue = individuals[0].getFitnessValue();
+	    BestIndividual = 0;
+	  
+	    double diff;
+	    for (int j = 0; j < N; j++)
+	      {
+		diff = individuals[j].getFitnessValue() - BestFitnessValue;
+		if ((minimization == 1 ? diff < 0: diff > 0))
+		  {
+		    BestFitnessValue = individuals[j].getFitnessValue();
+		    BestIndividual = j;
+		  }
+	      }
+	  }
 
 }
