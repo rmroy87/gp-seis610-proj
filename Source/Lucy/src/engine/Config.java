@@ -10,7 +10,7 @@ public abstract class Config {
 	{
 		try
 		{
-			File configfile = new File("src\\config\\" + filename + ".xml");
+			File configfile = new File(filename);
 			
 			BufferedReader br = new BufferedReader(new FileReader(configfile));
 			String line;

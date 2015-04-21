@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +23,15 @@ public class Settings extends Config
 	public int MaxIterations;
 	public int MaxTreeDepth;
 	public int KeeperThreshhold;
+	public ArrayList<OrderedPair> Training;
+	public static String lastFile;
 	
 	protected Settings() {
 		// Exists only to defeat instantiation.
 	}
 	
 	public static Settings get() {
-		return get("settings");
+		return get(".\\settings.xml");
 	}
 	
 	public static Settings get(String configName) {
@@ -40,8 +43,11 @@ public class Settings extends Config
 				xstream.alias("Settings", Settings.class);
 				xstream.alias("Operator", Operator.class);
 				xstream.alias("Operand", Operand.class);
+				xstream.alias("OrderedPair", OrderedPair.class);
 															
 				instance = (Settings)xstream.fromXML(read(configName));
+				File file = new File(configName);
+				lastFile = file.getAbsolutePath();
 				
 				logSettings(instance);
 			}
@@ -49,11 +55,16 @@ public class Settings extends Config
 			{		    
 				logger.log( 
 						Level.SEVERE, 
-						MessageFormatter.exception(String.format("Failed to load settings from %s.xml",configName), ex));
-				return null;
+						MessageFormatter.exception(String.format("Failed to load settings from %s",configName), ex));
+				throw ex;
 			}
 		}
 		return instance;
+	}
+	
+	public static Settings reget(String fileName) {
+		instance = null;
+		return get(fileName);
 	}
 	
 	private static void logSettings(Settings settings)

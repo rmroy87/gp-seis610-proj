@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class GeneticProgramManager {
 	
-	private static final Logger logger = Logger.getLogger( GeneticProgramManager.class.getName() );
+	private static Logger logger = Logger.getLogger( GeneticProgramManager.class.getName() );
 	
 	public String execute()
 	{
@@ -22,21 +22,24 @@ public class GeneticProgramManager {
 		{
 			long testStop = initializeEngine();
 			
+			int generation = 1;
+			
 			// Initial Population
 			StubbedPopulation pop = new StubbedPopulation();
 			//pop.evaluatePopulationFitness();
 			for(Individual i : pop)  {
-				logger.log(Level.FINER, "Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
+				logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 			}
 			
 			while (System.currentTimeMillis() < testStop && pop.getBestIndividual().getFitnessValue() != 0)
 			{			
 				
 				// next generation
+				generation += 1;
 				pop = new StubbedPopulation(pop);
 				//pop.evaluatePopulationFitness();
 				for(Individual i : pop)  {
-					logger.log(Level.FINER, "Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
+					logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 				}
 				
 			}
@@ -57,9 +60,8 @@ public class GeneticProgramManager {
 	
 	private long initializeEngine() throws SecurityException, FileNotFoundException, IOException
 	{
-		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
+		
 		Settings.get();
-		Training.get();
 		
 		DateFormat dateFormat = new SimpleDateFormat(" yyyy/MM/dd HH:mm:ss");
 		

@@ -1,12 +1,12 @@
 <Settings>
-	<InitPopulationSize>500</InitPopulationSize>
-	<PopulationSize>100</PopulationSize>
+	<InitPopulationSize>100</InitPopulationSize>
+	<PopulationSize>50</PopulationSize>
 	<MutationProbability>0.1</MutationProbability>
 	<CrossoverProbability>0.5</CrossoverProbability>
-	<MaxDuration>30</MaxDuration>
+	<MaxDuration>10</MaxDuration>
 	<MaxIterations>100</MaxIterations>
 	<MaxTreeDepth>5</MaxTreeDepth>
-	<KeeperThreshhold>20</KeeperThreshhold>
+	<KeeperThreshhold>10</KeeperThreshhold>
 	<Operators>
 		<Operator>
 			<value>+</value>
@@ -20,14 +20,11 @@
 		<Operator>
 			<value>*</value>
 		</Operator>
+		<Operator>
+			<value>*</value>
+		</Operator>
 	</Operators>
 	<Operands>
-		<Operand>
-			<value>0</value>
-		</Operand>
-		<Operand>
-			<value>1</value>
-		</Operand>
 		<Operand>
 			<value>2</value>
 		</Operand>
@@ -52,25 +49,19 @@
 		<Operand>
 			<value>9</value>
 		</Operand>
+		<Operand>
+			<value>10</value>
+		</Operand>
 	</Operands>
 	<Training>
 		<OrderedPair>
 			<X>-10</X><Y>49.5</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-9</X> <Y>40</Y>
-		</OrderedPair>
-		<OrderedPair>
 			<X>-8</X> <Y>31.5</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-7</X> <Y>24</Y>
-		</OrderedPair>
-		<OrderedPair>
 			<X>-6</X> <Y>17.5</Y>
-		</OrderedPair>
-		<OrderedPair>
-			<X>-5</X> <Y>12</Y>
 		</OrderedPair>
 		<OrderedPair>
 			<X>-4</X> <Y>7.5</Y>
