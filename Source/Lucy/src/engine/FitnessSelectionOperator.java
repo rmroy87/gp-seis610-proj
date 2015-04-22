@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class FitnessSelectionOperator {
 static int order=1;
-	
+
 static public void selectBest(double[] values, int valuesSize,  
 			 int[] population, int populationSize)
 {
@@ -45,17 +45,22 @@ static private void swap(int[]  v, int i, int j)
   v[j] = t;
 }
 
+/** selects <code>n</code> integers with uniform probability,
+ * between 0 and <code>N - 1</code> and places the selected values
+ * in the field <code>sample</code> */
+
+
 
 //selects integers between 0 and N-1
 //based on their probabilities; places the selected integers in population
 
 static public void selectProb(int N, double[] probabilities, 
 				int[] population, int n, Random rand)
-{
+				
+{ rand = new Random();
   for (int j = 0; j < n; j++)
     { 
 	double val = rand.nextDouble();
-    
 
 	// probabilities[i - 1] < val <= probabilities[i]
 	int i = 0;

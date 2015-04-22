@@ -8,19 +8,20 @@ public class Population extends ArrayList<Individual> {
 	  private int N;  // number of Individuals
 	  private int CrossoverSize; // number of Individuals to crossover 
 	  private int MutateSize;    // number of Individuals to mutate   
-	  private Individual[] individuals;    // population of Individuals
+	  private static Individual[] individuals;    // population of Individuals
 	  private double[] probabilities;     // selection probabilities 
 	  private int[] population;           // selected Individuals
-	  private int populationSize;        // size of the population --need to figure out if this is size of population
-	  private double BestFitnessValue;    // fitness of best chromosome getBestFitnessValueValue
-	  private int BestIndividual;         // index of the most fit chromosome getBestIndividual
+	  public static int populationSize;        // size of the population
+	  private double BestFitnessValue;    // fitness of best individual getBestFitnessValueValue
+	  private int BestIndividual;         // index of best individual getBestIndividual
 	  private Random rand; // random generator
-	  private int minimization;    
+
     
 	  public Population()
 	  { 
 		Settings settings = Settings.get();
-		
+	    this.rand = rand;
+	    
 		//creates initial population
 		individuals = new Individual[settings.InitPopulationSize];
 		
@@ -32,7 +33,7 @@ public class Population extends ArrayList<Individual> {
 		* calculate the number of individuals to crossover
 		*/
 	    CrossoverSize = (int)(settings.CrossoverProbability*settings.PopulationSize); 
-	      /** needs to be a multiple of 2 */
+	     // needs to be a multiple of 2 
 	      if (CrossoverSize % 2 != 0)
 		CrossoverSize++;
 	    
@@ -41,7 +42,6 @@ public class Population extends ArrayList<Individual> {
 		*/
 	    MutateSize = (int)(settings.MutationProbability*settings.PopulationSize);
 	  }
-	  
 
 	    /*
 		* sort individuals by highest fitness value
@@ -58,7 +58,6 @@ public class Population extends ArrayList<Individual> {
 	    FitnessSelectionOperator.selectBest(fitnessValues, N,  
 					population, populationSize);
 	  }
-
 
 	    /*
 		* probability of being selected 
@@ -77,16 +76,12 @@ public class Population extends ArrayList<Individual> {
 		* associate probability with individuals
 		*/
 	  private void computeProbabilities()
-	  {
-
+	  {probabilities = new double[N];
 	    double overallProb = 0.0;
 	    for (int j = 0; j < N; j++)
 	      {
 		  // want the smallest fitness value have the greatest probability
-		 probabilities[j] = 1.0 / individuals[j].getFitnessValue();
-		
-		  probabilities[j] = individuals[j].getFitnessValue();
-		
+		 probabilities[j] = 1.0 / individuals[j].getFitnessValue();	
 		overallProb += probabilities[j];
 	      }
 	  
@@ -101,7 +96,7 @@ public class Population extends ArrayList<Individual> {
 	  }
 
 		/*
-		 * probability of individual to be selected for crossover
+		 * selects individuals for crossover based on probability
 		 */		
 	  private void selectToCrossover()
 	  {
@@ -109,7 +104,7 @@ public class Population extends ArrayList<Individual> {
 	  }
 
 		/*
-		 * probability of individual to be selected for mutation
+		 * selects individuals for mutation based on probability
 		 */		
 	  private void selectToMutate()
 	  {	    
@@ -138,12 +133,67 @@ public class Population extends ArrayList<Individual> {
 	    for (int j = 0; j < N; j++)
 	      {
 		diff = individuals[j].getFitnessValue() - BestFitnessValue;
-		if ((minimization == 1 ? diff < 0: diff > 0))
+		if (diff < 0)
 		  {
 		    BestFitnessValue = individuals[j].getFitnessValue();
 		    BestIndividual = j;
 		  }
 	      }
 	  }
+	  
+	  public void set(int index, Individual individual) {
+		 individuals[index] = individual;  
+	  }
+	  
+	  protected void NextGeneration(){
+		Settings settings = Settings.get();
+		Individual[] nextPopulation = new Individual[settings.PopulationSize];
+		for (int i = 0; i < settings.PopulationSize; i++)
+		nextPopulation[i] = new Individual();
+		
+		int index = 0;
+		
+		selectToKeep();
+			// copy to the next generation
+			for (int i = 0 ; i < populationSize; i++, index++)
+				nextPopulation[index].set(individuals[population[i]]);
+	  
+		selectToCrossover();
+			BinaryNode crossSelect1 = null;
+			BinaryNode crossSelect2 = null;
+			Individual offspring1;
+			Individual offspring2;{
+		
+		for (int i = 0; i < Population.populationSize - 1; i += 2){
+
+		    offspring1 = individuals[population[i]].DeepCopyClone();
+		    offspring2 = individuals[population[i+1]].DeepCopyClone();
+		    
+		    crossSelect1 = individuals[population[i]].GetBinaryNodeRandomly();
+			crossSelect2 = individuals[population[i+1]].GetBinaryNodeRandomly();
+		   
+		    offspring1.InsertBinaryNodeRandomly(crossSelect2);
+			offspring2.InsertBinaryNodeRandomly(crossSelect1);}
+			// copy to the next generation
+				for (int i = 0 ; i < populationSize; i++, index++)
+				nextPopulation[index].set(individuals[population[i]]);
+				
+		selectToMutate();
+		Individual newMutation;{
+			for (int i = 0; i < populationSize; i++){
+				newMutation = individuals[population[i]].DeepCopyClone(); 
+				newMutation.ModifyIndividualRandomly();
+			}
+			// copy to the next generation
+			for (int i = 0 ; i < populationSize; i++, index++)
+			nextPopulation[index].set(individuals[population[i]]);
+			
+			// replace the old generation
+			for (int i = 0; i < N; i++)
+			  individuals[i].set(nextPopulation[i]);
+		}
+
+	}
+}
 
 }
