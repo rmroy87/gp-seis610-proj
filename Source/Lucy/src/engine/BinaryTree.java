@@ -63,16 +63,18 @@ public class BinaryTree {
 	 * Randomly modify one of the NODES within this Binary Tree.
 	 */
 	public void ModifyTreeRandomly(){
+		Settings settings = Settings.get();
 		BinaryNode modifiedNode = null;
 		int depthOfTree;
 		int randomNum;
 		
-		depthOfTree = TreeRoot.GetLeftNodeDepth();
+		depthOfTree = TreeRoot.GetNodeDepth();
 		/*
 		 * Create a random number for the modified nodes depth
 		 * based on the current depth of the tree.
 		 */
-		randomNum = engine.nextInt(depthOfTree);
+		randomNum = engine.nextInt(settings.MaxTreeDepth - depthOfTree);
+		
 		/*
 		 * Create the space and randomly populate the node.
 		 */
@@ -80,7 +82,8 @@ public class BinaryTree {
 		/*
 		 * Wedge that new NODE somewhere into the Binary Tree
 		 */
-		TreeRoot.InsertBinaryNodeRandomly(modifiedNode);		
+		InsertBinaryNodeRandomly(modifiedNode);
+		//TreeRoot.InsertBinaryNodeRandomly(modifiedNode);		
 	}
 	
 	/*
@@ -96,7 +99,12 @@ public class BinaryTree {
 	*   a complete NODE, and not a reference to another node.
 	*/
 	public void InsertBinaryNodeRandomly(BinaryNode nodeToInsert){
-		TreeRoot.InsertBinaryNodeRandomly(nodeToInsert);
+		if(TreeRoot.GetNodeDepth() == 0){
+			TreeRoot = nodeToInsert;
+		}else{
+			TreeRoot.InsertBinaryNodeRandomly(nodeToInsert);
+		}
+		
 	}
 	
 	/*

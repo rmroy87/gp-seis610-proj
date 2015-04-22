@@ -262,11 +262,13 @@ public class BinaryNode {
 		 */
 		if(DepthOfNode > 0){
 			depthToGo = engine.nextInt(DepthOfNode);
+			
+			nodeSelectedToCopy = GetBinaryNodeWithRecursion(depthToGo);	
 		}else{
-			depthToGo = 0;
+			nodeSelectedToCopy = this;
 		}
 		
-		nodeSelectedToCopy = GetBinaryNodeWithRecursion(depthToGo);		
+			
 		
 		return nodeSelectedToCopy;
 	}	
@@ -321,20 +323,24 @@ public class BinaryNode {
 		/*
 		 * Calculate how deep we can go with the NODE insertion.
 		 */
-		if( DepthOfNode > nodeToInsert.DepthOfNode){
-			maxPossibleDepth = DepthOfNode - nodeToInsert.DepthOfNode;
-			recurseIters = engine.nextInt(maxPossibleDepth);
-		}else{
+		if( DepthOfNode > 0){
+					
+			if( DepthOfNode > nodeToInsert.DepthOfNode){
+		
+				maxPossibleDepth = DepthOfNode - nodeToInsert.DepthOfNode;
+				recurseIters = engine.nextInt(maxPossibleDepth);
+			}else{
+				/*
+				 * This is the depth that we will need to insert at
+				 */
+				recurseIters = 0;
+			}		
 			/*
-			 * This is the depth that we will need to insert at
+			 * Okay, this will start the recursion...and Insert the
+			 * NODE into the tree.
 			 */
-			recurseIters = 0;
-		}		
-		/*
-		 * Okay, this will start the recursion...and Insert the
-		 * NODE into the tree.
-		 */
-		InsertNode(nodeToInsert, recurseIters);		
+			InsertNode(nodeToInsert, recurseIters);
+		}
 	}
 	
 	//
@@ -416,12 +422,22 @@ public class BinaryNode {
 	 * Accessor to get the depth of the node.
 	 */
 	public int GetLeftNodeDepth(){
-		return LeftBranch.DepthOfNode;
+		int depth = 0;
+		
+		if(LeftBranch != null)
+			depth = LeftBranch.DepthOfNode;
+		
+		return depth;
 	}
 	/*
 	 * Accessor to get the depth of the node.
 	 */
 	public int GetRightNodeDepth(){
-		return RightBranch.DepthOfNode;
+		int depth = 0;
+		
+		if(RightBranch != null)
+			depth = RightBranch.DepthOfNode;
+		
+		return depth;
 	}
 }

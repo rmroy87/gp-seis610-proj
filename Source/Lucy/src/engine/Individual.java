@@ -106,7 +106,8 @@ public class Individual {
 	 * save for future reference.
 	 */
 	private float CalculateFitness(){
-		Training trainData = Training.get();
+		Settings settings = Settings.get();
+		
 		float tempYData;
 				
 		FitnessValue = (float) 0.0;
@@ -114,7 +115,7 @@ public class Individual {
 		//
 		// Go through each ordered pair set of the training
 		// Data.
-		for(OrderedPair pair : trainData.OrderedPairs)  {
+		for(OrderedPair pair : settings.Training)  {
 			//System.out.print(String.format("{FI[%4.2f]", FitnessValue));
 			tempYData = TheBinaryTree.ResolveBinaryTree(pair.X);
 			//
