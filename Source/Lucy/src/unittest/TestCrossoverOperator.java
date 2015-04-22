@@ -21,6 +21,7 @@ import engine.BinaryNode;
 import engine.Individual;
 
 public class TestCrossoverOperator {
+	  private CrossoverOperator crosser  = new CrossoverOperator();
 	  private Individual[] individuals;
 	  private int[] population;           // selected Individuals
 	  private int populationSize;        // size of the current population
@@ -36,11 +37,14 @@ public class TestCrossoverOperator {
 		testCrossOverOperator();
 
 	}
+	
 	public void TestPopulationCreate(){
-	individuals = new Individual[20]; //replace with InitPop variable	
-	for(int i = 0; i < 20; i++){					
-		individuals[i] = new Individual();
-
+		individuals = new Individual[20]; //replace with InitPop variable	
+		
+		System.out.println("\nPopulation Create:");
+		for(int i = 0; i < 20; i++){					
+			individuals[i] = new Individual();
+			System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
 	  }
 	}
 	
@@ -68,35 +72,25 @@ public class TestCrossoverOperator {
 	 * Unit test to test Crossover
 	 */		 
 	public void testCrossOverOperator(){
-			BinaryNode crossSelect1 = null;
-			BinaryNode crossSelect2 = null;
-			Individual offspring1;
-			Individual offspring2;
 			
-			System.out.println();
-			// in population have the pair population[i], population[i+1] to use in crossover
-			for (int i = 0; i < populationSize - 1; i += 2){
-			    System.out.println("Before crossover: ");
-			    System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue() + " String: " + individuals[population[i]].ToString());
-			    System.out.println(population[i+1] + " " + individuals[population[i+1]].getFitnessValue() + " String: " + individuals[population[i+1]].ToString() ); 
-			    
-			    offspring1 = individuals[population[i]].DeepCopyClone();
-			    offspring2 = individuals[population[i+1]].DeepCopyClone();
-			    
-			    crossSelect1 = individuals[population[i]].GetBinaryNodeRandomly();
-				crossSelect2 = individuals[population[i+1]].GetBinaryNodeRandomly();
-				System.out.println("Cross Select 1: String: " + crossSelect1.ResolveNodeString());
-				System.out.println("Cross Select 2: String: " + crossSelect2.ResolveNodeString());
-			    
-
-			    offspring1.InsertBinaryNodeRandomly(crossSelect2);
-				offspring2.InsertBinaryNodeRandomly(crossSelect1);
-				
-			    System.out.println("After crossover ");
-			    System.out.println(population[i] + " " + offspring1.getFitnessValue() + " String: " + offspring1.ToString());
-			    System.out.println(population[i+1] + " " + offspring2.getFitnessValue() + " String: " + offspring2.ToString());
-			     
-			}
-
+		Individual offspring1;
+		Individual offspring2;
+		
+		System.out.println("\nTest Cross-Over:");
+		// in population have the pair population[i], population[i+1] to use in crossover
+		for (int i = 0; i < populationSize - 1; i += 2){
+		    System.out.println("Before crossover: ");
+		    System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue() + " String: " + individuals[population[i]].ToString());
+		    System.out.println(population[i+1] + " " + individuals[population[i+1]].getFitnessValue() + " String: " + individuals[population[i+1]].ToString() ); 
+		    
+		    offspring1 = crosser.CrossOver(individuals[population[i]], individuals[population[i+1]]);			   
+		    offspring2 = crosser.CrossOver(individuals[population[i+1]], individuals[population[i]]);
+		    				
+		    System.out.println("After crossover ");
+		    System.out.println(population[i] + " " + offspring1.getFitnessValue() + " String: " + offspring1.ToString());
+		    System.out.println(population[i+1] + " " + offspring2.getFitnessValue() + " String: " + offspring2.ToString());
+		     
 		}
+
+	}
 }

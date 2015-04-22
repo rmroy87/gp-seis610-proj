@@ -11,8 +11,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.util.Random;
-
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +24,8 @@ import engine.FitnessSelectionOperator;
 import engine.Individual;
 
 public class TestMutationOperator {
-
+	private MutationOperator Mutator = new MutationOperator();
+	
 	private Individual[] individuals;
 	  private int[] population;           // selected Individuals
 	  private int populationSize;        // size of the current population
@@ -43,10 +42,15 @@ public class TestMutationOperator {
 
 	}
 	public void TestPopulationCreate(){
-	individuals = new Individual[20]; //replace with InitPop variable	
-	for(int i = 0; i < 20; i++){					
-		individuals[i] = new Individual();
-	  }
+		individuals = new Individual[20]; //replace with InitPop variable	
+		
+		System.out.println("\nPopulation Create:");
+		
+		for(int i = 0; i < 20; i++){					
+			individuals[i] = new Individual();
+			System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
+			 
+		 }
 	}
 	
 	/*
@@ -72,6 +76,8 @@ public class TestMutationOperator {
 	 */	
 	public void testMutationOperator(){  
 		Individual newMutation;
+		
+		System.out.println("\nTest Mutation:");
 		for (int i = 0; i < populationSize; i++){
 			System.out.println("Before mutation");
 			System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue()+ " String: " + individuals[population[i]].ToString());
@@ -80,9 +86,10 @@ public class TestMutationOperator {
 			 * and then execute the random mutation on that cloned copy.  The original
 			 * Individual does not change.
 			 */
-			newMutation = individuals[population[i]].DeepCopyClone(); 
-			newMutation.ModifyIndividualRandomly();
-				  // removed by Rob individuals[population[i]].MutationOperator(rand);
+			newMutation = Mutator.Mutate(individuals[population[i]]);
+			//newMutation = individuals[population[i]].DeepCopyClone(); 
+			//newMutation.ModifyIndividualRandomly();
+			// removed by Rob individuals[population[i]].MutationOperator(rand);
 			
 			System.out.println("After mutation");
 			// removed by Rob System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue());
