@@ -85,8 +85,8 @@ public class TestBinaryNode {
 		BinaryNode CrossedOverNode = null;
 		
 		
-		TestParent1 = new BinaryNode(null, 3);
-		TestParent2 = new BinaryNode(null, 4);
+		TestParent1 = new BinaryNode(null, 2);
+		TestParent2 = new BinaryNode(null, 2);
 		
 		OffSpring       = TestParent1.DeepCopy();
 		CrossedOverNode = TestParent2.GetBinaryNodeRandomly();
