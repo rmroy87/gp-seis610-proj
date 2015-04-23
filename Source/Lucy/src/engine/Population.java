@@ -10,6 +10,7 @@ public class Population {
 	  private int MutateSize;    // number of Individuals to mutate   
 	  //private static Individual[] individuals;    // population of Individuals
 	  ArrayList<Individual> individuals;
+	  ArrayList<Individual> sortedIndividuals;
 	  private double[] probabilities;     // selection probabilities 
 	  private int[] population;           // selected Individuals
 	  private int[] crossOverList; // Rob added
@@ -28,7 +29,9 @@ public class Population {
 	  public Population()
 	  { 
 			Settings settings = Settings.get();
-					
+				
+			N = settings.InitPopulationSize;
+			
 			for(int i = 0; i < settings.InitPopulationSize; i++){			
 				individuals.add(new Individual());
 			}
@@ -49,8 +52,8 @@ public class Population {
 			/*
 			 * Sort he Population Array List, so that they are ordered based on
 			 * the best fitness value
-			 */
-	    
+			 */	    
+			SortThePopulation(N);
 	   }
 	  
 		  
@@ -61,6 +64,7 @@ public class Population {
 	  { 
 			Settings settings = Settings.get();
 			
+			N = settings.PopulationSize;
 			/*
 			 * Do we need to seed the new population with our best X individuals without
 			 * probability?  Don't know what the setting is for the auto keepers??
@@ -85,11 +89,32 @@ public class Population {
 			Mutate();
 			
 			/*
-			 * Sort the new population based on the new individuals
+			 * Sort the new population based on the new individuals, so that they are ordered 
+			 * based on the best fitness value
 			 */
-			
+			SortThePopulation(N);
 			
 		    // Stub in
+	  }
+	  
+	  /*
+	   * Sort the indivudals arraylist based on the best fitness order
+	   */
+	  private void SortThePopulation(int popSize)
+	  {		  
+		  /*
+		   * This will fill in the population array, and then we will copy
+		   */
+		  selectBest(popSize);
+		  
+		  for (int i = 0; i < popSize; i++){
+			  sortedIndividuals.add(individuals.get(population[i]));
+		  }
+		  
+		  /*
+		   * Individuals is now sorted...
+		   */
+		  individuals = sortedIndividuals;		  
 	  }
 
 	/*
