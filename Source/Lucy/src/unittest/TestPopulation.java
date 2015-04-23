@@ -9,6 +9,10 @@ import org.junit.Test;
 import java.util.Random;
 
 public class TestPopulation {
+	
+		private Population ThePopulation;
+		private Individual TheBestIndividual;
+		
 	  private Individual[] individuals;
 	  private int[] population;           // selected Individuals
 	  private int populationSize;        // size of the current population
@@ -22,6 +26,7 @@ public class TestPopulation {
 	public void test() throws SecurityException, FileNotFoundException, IOException {
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		TestPopulationCreate();
+		TestPopulationForGenerations(25);
 		TestSorting();
 		TestBestIndividual();
 
@@ -30,13 +35,32 @@ public class TestPopulation {
 		 * Unit test to test the basic create population function.
 		 */
 		public void TestPopulationCreate(){
-		individuals = new Individual[20]; 
+			ThePopulation = new Population();
+			
+			System.out.println(" Initializing population ...");
+			
+			TheBestIndividual = ThePopulation.getBestIndividual();
+			
+			System.out.println("   Best Individual String:  " + TheBestIndividual.ToString()); 
+			System.out.println("   Best Individual Fitness: " + TheBestIndividual.getFitnessValue());   
+			
+		}
 		
-		System.out.println(" Initializing population ...");
-		for(int i = 0; i < 20; i++){					
-			individuals[i] = new Individual();
-			System.out.println("Individual= "+i);
-		  }
+		public void TestPopulationForGenerations(int numGens){
+						
+			System.out.println(" Running " + numGens + " Generations...");
+			
+			for (int i = 0; i < numGens; i++){
+				ThePopulation = new Population(ThePopulation);
+				
+				TheBestIndividual = ThePopulation.getBestIndividual();
+				
+				System.out.println("Gen[" + i + "]--Best Individual String:  " + TheBestIndividual.ToString()); 
+				System.out.println("Gen[" + i + "]--Best Individual Fitness: " + TheBestIndividual.getFitnessValue()); 
+				
+			}
+			  
+			
 		}
 	
 		/*
