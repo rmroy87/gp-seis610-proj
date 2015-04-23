@@ -30,6 +30,9 @@ public class Population {
 	  { 
 			Settings settings = Settings.get();
 				
+			individuals = new ArrayList<Individual>();
+			sortedIndividuals = new ArrayList<Individual>();
+			
 			N = settings.InitPopulationSize;
 			
 			for(int i = 0; i < settings.InitPopulationSize; i++){			
@@ -62,16 +65,13 @@ public class Population {
 	   */  
 	  public Population(Population genX)
 	  { 
+		  	individuals = new ArrayList<Individual>();
+			sortedIndividuals = new ArrayList<Individual>();
+			
 			Settings settings = Settings.get();
 			
 			N = settings.PopulationSize;
-			/*
-			 * Do we need to seed the new population with our best X individuals without
-			 * probability?  Don't know what the setting is for the auto keepers??
-			 */
-			for(int i = 0; i < 5; i++){			
-				individuals.add(genX.individuals.get(i));
-			}
+			
 			
 			/*
 			 * Select our best fitness individuals to carry forward based on probability
@@ -231,15 +231,17 @@ public class Population {
 	 * complete this task
 	 */	
 	  private void Keepers(Population genX)
-	  {	      
-		    selectBest(N - CrossoverSize - MutateSize);
+	  {	 
+		    int numKeepers = N - CrossoverSize - MutateSize;
+		    // Don't need here with sorted array list from last Gen 
+		    // selectBest(N - CrossoverSize - MutateSize);
 		    
-			for (int i = 0 ; i < populationSize; i++){
+			for (int i = 0 ; i < numKeepers; i++){
 				/*
 				 * Copy the desired individuals from the last generation to the new
 				 * generation.
 				 */
-				individuals.add(genX.individuals.get(population[i]));
+				individuals.add(genX.individuals.get(i));
 			}
 	  }
 	  
