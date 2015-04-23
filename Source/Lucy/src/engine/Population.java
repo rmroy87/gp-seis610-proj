@@ -28,7 +28,7 @@ public class Population {
 	  public Population()
 	  { 
 			Settings settings = Settings.get();
-						
+					
 			for(int i = 0; i < settings.InitPopulationSize; i++){			
 				individuals.add(new Individual());
 			}
@@ -61,6 +61,32 @@ public class Population {
 	  { 
 			Settings settings = Settings.get();
 			
+			/*
+			 * Do we need to seed the new population with our best X individuals without
+			 * probability?  Don't know what the setting is for the auto keepers??
+			 */
+			for(int i = 0; i < 5; i++){			
+				individuals.add(genX.individuals.get(i));
+			}
+			
+			/*
+			 * Select our best fitness individuals to carry forward based on probability
+			 */
+			Keepers(genX);
+			
+			/*
+			 * Select and ADD our Cross Over candidates
+			 */
+			Crossover();
+			
+			/*
+			 * Select and ADD our Mutation candidates
+			 */
+			Mutate();
+			
+			/*
+			 * Sort the new population based on the new individuals
+			 */
 			
 			
 		    // Stub in
@@ -84,19 +110,33 @@ public class Population {
 						population, populationSize);
 	  }
 
+	
 	/*
 	* probability of being selected 
 	*/
-	  private void selectProb(int n)
+	  private void selectMutateProb(int n)
 	  {
 			// compute individual selection probabilities based on fitness
 			computeProbabilities();
+					
+			mutationList = new int[n];
 			
-			populationSize = n;
-			population = new int[populationSize];
-			
-			FitnessSelectionOperator.selectProb(N, probabilities, population, populationSize, rand);
+			FitnessSelectionOperator.selectProb(N, probabilities, mutationList, n, rand);
 	  }
+	  
+	/*
+	* probability of being selected 
+	*/
+	  private void selectCrossOverProb(int n)
+	  {
+			// compute individual selection probabilities based on fitness
+			computeProbabilities();			
+			
+			crossOverList = new int[n];
+			
+			FitnessSelectionOperator.selectProb(N, probabilities, crossOverList, n, rand);
+	  }
+
 
 	/*
 	* associate probability with individuals
@@ -132,7 +172,7 @@ public class Population {
 		  Individual offspring1;
 		  Individual offspring2;
 	  
-		  selectProb(CrossoverSize);
+		  selectCrossOverProb(CrossoverSize);
 			
 		  for (int i = 0; i < CrossoverSize - 1; i += 2){			
 		
@@ -152,24 +192,30 @@ public class Population {
 		  Individual newMutation;	
 		  MutationOperator Mutator = new MutationOperator();
 		  
-		  selectProb(MutateSize); 
+		  selectMutateProb(MutateSize); 
 		  
 		  for (int i = 0; i < MutateSize; i++){				
-			newMutation = Mutator.Mutate(individuals.get(population[i]));
+			newMutation = Mutator.Mutate(individuals.get(mutationList[i]));
 			
 			individuals.add(newMutation);			
 		  }			
 	  }
 	  
 	/*
-	 * select keepers based on probability
+	 * select keepers based on probability, we will need the last generation to 
+	 * complete this task
 	 */	
-	  private void Keepers()
+	  private void Keepers(Population genX)
 	  {	      
-	    selectBest(N - CrossoverSize - MutateSize);
-	    
-		for (int i = 0 ; i < populationSize; i++)
-			individuals.add(new Individual());
+		    selectBest(N - CrossoverSize - MutateSize);
+		    
+			for (int i = 0 ; i < populationSize; i++){
+				/*
+				 * Copy the desired individuals from the last generation to the new
+				 * generation.
+				 */
+				individuals.add(genX.individuals.get(population[i]));
+			}
 	  }
 	  
 
@@ -198,12 +244,13 @@ public class Population {
 		    }
 	  }
 	  	
-	  
+	  //
+	  // Deprecated with the new constructor to work on next generation
 	  protected void NextGeneration(){
-		CrossoverOperator crosser  = new CrossoverOperator();
-		MutationOperator Mutator = new MutationOperator();
+		//CrossoverOperator crosser  = new CrossoverOperator();
+		//MutationOperator Mutator = new MutationOperator();
 		
-		Settings settings = Settings.get();
+		//Settings settings = Settings.get();
 		//Individual[] nextPopulation = new Individual[settings.PopulationSize];
 		//ArrayList<Individual> nextPopulation = new ArrayList<Individual>();
 		
