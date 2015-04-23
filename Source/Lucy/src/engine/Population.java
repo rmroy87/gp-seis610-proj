@@ -3,14 +3,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Population extends ArrayList<Individual> {
+public class Population {
 	  
 	  private int N;  // number of Individuals
 	  private int CrossoverSize; // number of Individuals to crossover 
 	  private int MutateSize;    // number of Individuals to mutate   
-	  private static Individual[] individuals;    // population of Individuals
+	  //private static Individual[] individuals;    // population of Individuals
+	  ArrayList<Individual> individuals;
 	  private double[] probabilities;     // selection probabilities 
 	  private int[] population;           // selected Individuals
+	  private int[] crossOverList; // Rob added
+	  private int[] mutationList;  // Rob added
 	  public static int populationSize;        // size of the population
 	  private double BestFitnessValue;    // fitness of best individual getBestFitnessValueValue
 	  private int BestIndividual;         // index of best individual getBestIndividual
@@ -20,13 +23,13 @@ public class Population extends ArrayList<Individual> {
 	  public Population()
 	  { 
 		Settings settings = Settings.get();
-	    this.rand = rand;
 	    
 		//creates initial population
-		individuals = new Individual[settings.InitPopulationSize];
+		//individuals = new Individual[settings.InitPopulationSize];
 		
 			for(int i = 0; i < settings.InitPopulationSize; i++){					
-				individuals[i] = new Individual();
+				//individuals[i] = new Individual();
+				individuals.add(new Individual());
 			}
 
 		/*
@@ -42,6 +45,12 @@ public class Population extends ArrayList<Individual> {
 		*/
 	    MutateSize = (int)(settings.MutationProbability*settings.PopulationSize);
 	  }
+	  
+	  public Population(Population genX)
+	  { 
+		Settings settings = Settings.get();
+	    // Stub in
+	  }
 
 	    /*
 		* sort individuals by highest fitness value
@@ -53,7 +62,7 @@ public class Population extends ArrayList<Individual> {
 
 	    double[] fitnessValues = new double[N];
 	    for (int i = 0; i < N; i++)
-	      fitnessValues[i] = individuals[i].getFitnessValue();
+	      fitnessValues[i] = individuals.get(i).getFitnessValue();
 	  
 	    FitnessSelectionOperator.selectBest(fitnessValues, N,  
 					population, populationSize);
@@ -81,7 +90,7 @@ public class Population extends ArrayList<Individual> {
 	    for (int j = 0; j < N; j++)
 	      {
 		  // want the smallest fitness value have the greatest probability
-		 probabilities[j] = 1.0 / individuals[j].getFitnessValue();	
+		 probabilities[j] = 1.0 / individuals.get(j).getFitnessValue();	
 		overallProb += probabilities[j];
 	      }
 	  
@@ -124,65 +133,74 @@ public class Population extends ArrayList<Individual> {
 		/*
 		 * find individual with best fitness
 		 */	
-	  private void findBestFitnessValue()
+	  public Individual getBestIndividual()
 	  {
-	    BestFitnessValue = individuals[0].getFitnessValue();
+		  return individuals.get(0);
+	  }
+	  
+	  private void getBestFitnessValue()
+	  {
+	    BestFitnessValue = individuals.get(0).getFitnessValue();
 	    BestIndividual = 0;
 	  
 	    double diff;
 	    for (int j = 0; j < N; j++)
 	      {
-		diff = individuals[j].getFitnessValue() - BestFitnessValue;
+		diff = individuals.get(j).getFitnessValue() - BestFitnessValue;
 		if (diff < 0)
 		  {
-		    BestFitnessValue = individuals[j].getFitnessValue();
+		    BestFitnessValue = individuals.get(j).getFitnessValue();
 		    BestIndividual = j;
 		  }
 	      }
 	  }
 	  
-	  public void set(int index, Individual individual) {
-		 individuals[index] = individual;  
-	  }
+	  //public void set(int index, Individual individual) {
+		 //individuals[index] = individual;  
+	  //}
 	  
 	  protected void NextGeneration(){
+		CrossoverOperator crosser  = new CrossoverOperator();
+		MutationOperator Mutator = new MutationOperator();
+		
 		Settings settings = Settings.get();
-		Individual[] nextPopulation = new Individual[settings.PopulationSize];
-		for (int i = 0; i < settings.PopulationSize; i++)
-		nextPopulation[i] = new Individual();
+		//Individual[] nextPopulation = new Individual[settings.PopulationSize];
+		//ArrayList<Individual> nextPopulation = new ArrayList<Individual>();
+		
+		
+		/*
+		  for (int i = 0; i < settings.PopulationSize; i++)
+		 
+			//nextPopulation[i] = new Individual();
+			individuals.add(new Individual());
+		*/
 		
 		int index = 0;
 		
 		selectToKeep();
-			// copy to the next generation
-			for (int i = 0 ; i < populationSize; i++, index++)
-				nextPopulation[index].set(individuals[population[i]]);
+		// copy to the next generation
+		for (int i = 0 ; i < populationSize; i++, index++)
+			//nextPopulation[index].set(individuals[population[i]]);
+			nextPopulation.set(index) = this.
+		
 	  
 		selectToCrossover();
-			BinaryNode crossSelect1 = null;
-			BinaryNode crossSelect2 = null;
-			Individual offspring1;
-			Individual offspring2;{
+			
+		Individual offspring1;
+		Individual offspring2;{
 		
 		for (int i = 0; i < Population.populationSize - 1; i += 2){
-
-		    offspring1 = individuals[population[i]].DeepCopyClone();
-		    offspring2 = individuals[population[i+1]].DeepCopyClone();
+			offspring1 = crosser.CrossOver(individuals[population[i]], individuals[population[i+1]]);
+			offspring2 = crosser.CrossOver(individuals[population[i+1]], individuals[population[i]]);
 		    
-		    crossSelect1 = individuals[population[i]].GetBinaryNodeRandomly();
-			crossSelect2 = individuals[population[i+1]].GetBinaryNodeRandomly();
-		   
-		    offspring1.InsertBinaryNodeRandomly(crossSelect2);
-			offspring2.InsertBinaryNodeRandomly(crossSelect1);}
 			// copy to the next generation
-				for (int i = 0 ; i < populationSize; i++, index++)
+			for (int i = 0 ; i < populationSize; i++, index++)
 				nextPopulation[index].set(individuals[population[i]]);
 				
 		selectToMutate();
 		Individual newMutation;{
-			for (int i = 0; i < populationSize; i++){
-				newMutation = individuals[population[i]].DeepCopyClone(); 
-				newMutation.ModifyIndividualRandomly();
+			for (int i = 0; i < populationSize; i++){				
+				newMutation = Mutator.Mutate(individuals[population[i]]);				
 			}
 			// copy to the next generation
 			for (int i = 0 ; i < populationSize; i++, index++)
