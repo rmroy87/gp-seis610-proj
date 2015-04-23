@@ -7,7 +7,8 @@ public class Population {
 	  
 	  private int N;  // number of Individuals
 	  private int CrossoverSize; // number of Individuals to crossover 
-	  private int MutateSize;    // number of Individuals to mutate   
+	  private int MutateSize;    // number of Individuals to mutate 
+	  private int NewPopBaseSize;
 	  //private static Individual[] individuals;    // population of Individuals
 	  ArrayList<Individual> individuals;
 	  ArrayList<Individual> sortedIndividuals;
@@ -72,7 +73,16 @@ public class Population {
 			
 			N = settings.PopulationSize;
 			
+			/*
+			* calculate the number of individuals to mutate
+			*/
+			MutateSize = genX.MutateSize;
+			/*
+			* calculate the number of individuals to crossover
+			*/
+			CrossoverSize = genX.CrossoverSize;
 			
+			NewPopBaseSize = N - CrossoverSize - MutateSize;
 			/*
 			 * Select our best fitness individuals to carry forward based on probability
 			 */
@@ -107,8 +117,14 @@ public class Population {
 		   */
 		  selectBest(popSize);
 		  
+		  if(popSize > individuals.size()){
+			  popSize = individuals.size();
+		  }
 		  for (int i = 0; i < popSize; i++){
-			  sortedIndividuals.add(individuals.get(population[i]));
+			  if(population[i] < individuals.size())
+				  sortedIndividuals.add(individuals.get(population[i]));
+			  else
+				  System.out.println("Bad Copy: " + population[i]);
 		  }
 		  
 		  /*
@@ -146,7 +162,7 @@ public class Population {
 					
 			mutationList = new int[n];
 			
-			FitnessSelectionOperator.selectProb(N, probabilities, mutationList, n, rand);
+			FitnessSelectionOperator.selectProb(NewPopBaseSize, probabilities, mutationList, n, rand);
 	  }
 	  
 	/*
@@ -159,7 +175,7 @@ public class Population {
 			
 			crossOverList = new int[n];
 			
-			FitnessSelectionOperator.selectProb(N, probabilities, crossOverList, n, rand);
+			FitnessSelectionOperator.selectProb(NewPopBaseSize, probabilities, crossOverList, n, rand);
 	  }
 
 
@@ -170,21 +186,26 @@ public class Population {
 	  {
 		  	probabilities = new double[N];
 		  	double overallProb = 0.0;
+		  	int sizePop = individuals.size();
 		  	
-			for (int j = 0; j < N; j++){
+		  	if (sizePop > NewPopBaseSize){
+		  		sizePop = NewPopBaseSize;
+		  	}
+		  	
+			for (int j = 0; j < sizePop; j++){
 			  // want the smallest fitness value have the greatest probability
 				probabilities[j] = 1.0 / individuals.get(j).getFitnessValue();	
 				overallProb += probabilities[j];
 			}
 	  
 			// make the probabilities with sum equal to 1
-		    for (int j = 0; j < N; j++)
+		    for (int j = 0; j < sizePop; j++)
 		      probabilities[j] /= overallProb;
 
-		    for (int j = 1; j < N - 1; j++)
+		    for (int j = 1; j < sizePop - 1; j++)
 		      probabilities[j] += probabilities[j - 1];
 	   
-		    probabilities[N - 1] = 1.0;
+		    probabilities[sizePop - 1] = 1.0;
 	  }
 
 	  /*
@@ -200,10 +221,14 @@ public class Population {
 		  selectCrossOverProb(CrossoverSize);
 			
 		  for (int i = 0; i < CrossoverSize - 1; i += 2){			
-		
+			  System.out.println("CR[" + i + "]- 1: " + crossOverList[i] + " String: " + individuals.get(crossOverList[i]).ToString());
+			  System.out.println("CR[" + (i+1) + "]- 2: " + crossOverList[i + 1] + " String: " + individuals.get(crossOverList[i+1]).ToString());
+			  
 			  offspring1 = crosser.CrossOver(individuals.get(crossOverList[i]), individuals.get(crossOverList[i+1]));
 			  offspring2 = crosser.CrossOver(individuals.get(crossOverList[i+1]), individuals.get(crossOverList[i]));
-				
+			
+			  System.out.println("CR[" + i + "]- OUT: ");
+			  
 			  individuals.add(offspring1);
 			  individuals.add(offspring2);
 		  }
@@ -219,7 +244,8 @@ public class Population {
 		  
 		  selectMutateProb(MutateSize); 
 		  
-		  for (int i = 0; i < MutateSize; i++){				
+		  for (int i = 0; i < MutateSize; i++){	
+			  System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
 			newMutation = Mutator.Mutate(individuals.get(mutationList[i]));
 			
 			individuals.add(newMutation);			
