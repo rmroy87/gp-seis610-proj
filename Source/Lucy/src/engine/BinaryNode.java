@@ -204,7 +204,6 @@ public class BinaryNode {
 		int randNum;
 	
 		randNum   = engine.nextInt(2); /* Either a ZERO or a ONE */	
-		
 		/*
 		 * If we are at the Depth that we would like to be at, simply
 		 * flip the coin and determine if we go LEFT or RIGHT. Then
@@ -228,20 +227,20 @@ public class BinaryNode {
 				 * We want to go deeper, but we may have an even branch, and there 
 				 * may not be another NODE on the left.
 				 */
-				if(LeftBranch != null){
-					nodeSelectedToCopy = LeftBranch.GetBinaryNodeWithRecursion(depthToGo);
+				if((LeftBranch == null) || (LeftBranch.DepthOfNode == 0)){
+					nodeSelectedToCopy = this.DeepCopy();					
 				}else{
-					nodeSelectedToCopy = this;
+					nodeSelectedToCopy = LeftBranch.GetBinaryNodeWithRecursion(depthToGo);
 				}
 			}else{
 				/*
 				 * We want to go deeper, but we may have an even branch, and there 
 				 * may not be another NODE on the right.
 				 */
-				if(RightBranch != null){
-					nodeSelectedToCopy = RightBranch.GetBinaryNodeWithRecursion(depthToGo);
+				if((RightBranch == null) || (RightBranch.DepthOfNode == 0)){
+					nodeSelectedToCopy = this.DeepCopy();
 				}else{
-					nodeSelectedToCopy = this;
+					nodeSelectedToCopy = RightBranch.GetBinaryNodeWithRecursion(depthToGo);
 				}				
 			}			
 		}		
@@ -256,19 +255,16 @@ public class BinaryNode {
 	public BinaryNode GetBinaryNodeRandomly(){
 		BinaryNode nodeSelectedToCopy = null;	
 		int depthToGo;
-			
+		
 		/*
 		 * Determine which NODE we want, in a totally random fashion
 		 */
 		if(DepthOfNode > 0){
 			depthToGo = engine.nextInt(DepthOfNode);
-			
 			nodeSelectedToCopy = GetBinaryNodeWithRecursion(depthToGo);	
 		}else{
-			nodeSelectedToCopy = this;
-		}
-		
-			
+			nodeSelectedToCopy = this.DeepCopy();
+		}			
 		
 		return nodeSelectedToCopy;
 	}	
@@ -281,7 +277,8 @@ public class BinaryNode {
 	{
 		int randNum;
 		
-		randNum   = engine.nextInt(2); /* Either a ZERO or a ONE */		
+		randNum   = engine.nextInt(2); /* Either a ZERO or a ONE */	
+	
 		/*
 		 * If we are at the Depth that we would like to be at, simply
 		 * flip the coin and determine if we go LEFT or RIGHT.
@@ -303,12 +300,29 @@ public class BinaryNode {
 			 * coin flip, go LEFT or RIGHT and continue to recurse.
 			 */
 			if(randNum == 0){
-				LeftBranch.InsertNode(nodeToInsert, depthToRecurse);
+				if((LeftBranch == null) || (LeftBranch.DepthOfNode == 0)){
+					LeftBranch  = nodeToInsert;
+					nodeToInsert.ParentNode = this; 
+					
+				}else{
+					LeftBranch.InsertNode(nodeToInsert, depthToRecurse);
+				}
+			}else{
+				if((RightBranch == null) || (RightBranch.DepthOfNode == 0)){
+					RightBranch  = nodeToInsert;
+					nodeToInsert.ParentNode = this; 
+					
+				}else{
+					RightBranch.InsertNode(nodeToInsert, depthToRecurse);
+				}
+								
+			}	
+			
+			if(LeftBranch.DepthOfNode > RightBranch.DepthOfNode){
 				DepthOfNode = LeftBranch.DepthOfNode + 1;
 			}else{
-				RightBranch.InsertNode(nodeToInsert, depthToRecurse);
 				DepthOfNode = RightBranch.DepthOfNode + 1;
-			}			
+			}
 		}
 	}
 	
@@ -324,9 +338,9 @@ public class BinaryNode {
 		 * Calculate how deep we can go with the NODE insertion.
 		 */
 		if( DepthOfNode > 0){
-					
+			
 			if( DepthOfNode > nodeToInsert.DepthOfNode){
-		
+				
 				maxPossibleDepth = DepthOfNode - nodeToInsert.DepthOfNode;
 				recurseIters = engine.nextInt(maxPossibleDepth);
 			}else{

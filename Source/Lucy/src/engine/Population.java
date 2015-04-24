@@ -221,13 +221,13 @@ public class Population {
 		  selectCrossOverProb(CrossoverSize);
 			
 		  for (int i = 0; i < CrossoverSize - 1; i += 2){			
-			  System.out.println("CR[" + i + "]- 1: " + crossOverList[i] + " String: " + individuals.get(crossOverList[i]).ToString());
-			  System.out.println("CR[" + (i+1) + "]- 2: " + crossOverList[i + 1] + " String: " + individuals.get(crossOverList[i+1]).ToString());
+			  //System.out.println("CR[" + i + "]- 1: " + crossOverList[i] + " String: " + individuals.get(crossOverList[i]).ToString());
+			  //System.out.println("CR[" + (i+1) + "]- 2: " + crossOverList[i + 1] + " String: " + individuals.get(crossOverList[i+1]).ToString());
 			  
 			  offspring1 = crosser.CrossOver(individuals.get(crossOverList[i]), individuals.get(crossOverList[i+1]));
 			  offspring2 = crosser.CrossOver(individuals.get(crossOverList[i+1]), individuals.get(crossOverList[i]));
 			
-			  System.out.println("CR[" + i + "]- OUT: ");
+			  //System.out.println("CR[" + i + "]- OUT: ");
 			  
 			  individuals.add(offspring1);
 			  individuals.add(offspring2);
@@ -245,7 +245,7 @@ public class Population {
 		  selectMutateProb(MutateSize); 
 		  
 		  for (int i = 0; i < MutateSize; i++){	
-			  System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
+			  //System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
 			newMutation = Mutator.Mutate(individuals.get(mutationList[i]));
 			
 			individuals.add(newMutation);			

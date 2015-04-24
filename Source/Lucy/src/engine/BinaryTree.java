@@ -99,6 +99,7 @@ public class BinaryTree {
 	*   a complete NODE, and not a reference to another node.
 	*/
 	public void InsertBinaryNodeRandomly(BinaryNode nodeToInsert){
+		
 		if(TreeRoot.GetNodeDepth() == 0){
 			TreeRoot = nodeToInsert;
 		}else{

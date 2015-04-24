@@ -12,7 +12,6 @@ public class MutationOperator {
 	 */
 	public Individual Mutate(Individual clonedIndividual){
 		
-		System.out.println("MOO -- 1:" + clonedIndividual.ToString());
 		/*
 		 * Start with a deep copy clone of the doner individual
 		 */
@@ -22,7 +21,6 @@ public class MutationOperator {
 		 * Randomly modify this Individual
 		 */
 		newMutation.ModifyIndividualRandomly();	
-		System.out.println("MOO -- 2:" + newMutation.ToString());
 		
 		return newMutation;	
 	}
