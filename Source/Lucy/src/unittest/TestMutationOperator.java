@@ -39,6 +39,7 @@ public class TestMutationOperator {
 		TestPopulationCreate();
 		TestSorting();
 		testMutationOperator();
+		TestPopulationAfterMutation();
 
 	}
 	public void TestPopulationCreate(){
@@ -46,7 +47,7 @@ public class TestMutationOperator {
 		
 		System.out.println("\nPopulation Create:");
 		
-		for(int i = 0; i < 20; i++){					
+		for(int i = 0; i < N; i++){					
 			individuals[i] = new Individual();
 			System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
 			 
@@ -78,22 +79,35 @@ public class TestMutationOperator {
 		Individual newMutation;
 		
 		System.out.println("\nTest Mutation:");
-		for (int i = 0; i < populationSize; i++){
-			System.out.println("Before mutation");
-			System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue()+ " String: " + individuals[population[i]].ToString());
-			/*
-			 * Added by Rob.  Create a deep Copy Clone of the Individual that you wish to Mutate,
-			 * and then execute the random mutation on that cloned copy.  The original
-			 * Individual does not change.
-			 */
-			newMutation = Mutator.Mutate(individuals[population[i]]);
-			//newMutation = individuals[population[i]].DeepCopyClone(); 
-			//newMutation.ModifyIndividualRandomly();
-			// removed by Rob individuals[population[i]].MutationOperator(rand);
-			
-			System.out.println("After mutation");
-			// removed by Rob System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue());
-			System.out.println(population[i] + " " + newMutation.getFitnessValue() + " String:" + newMutation.ToString());				
-		}	
+		for(int j=0; j < 20; j++){
+			System.out.println("\nGeneration: " + j);
+			for (int i = 0; i < N; i++){
+				System.out.println("Before mutation: ");
+				System.out.println(i+ " " + individuals[i].getFitnessValue()+ " String: " + individuals[i].ToString());
+				/*
+				 * Added by Rob.  Create a deep Copy Clone of the Individual that you wish to Mutate,
+				 * and then execute the random mutation on that cloned copy.  The original
+				 * Individual does not change.
+				 */
+				newMutation = Mutator.Mutate(individuals[i]);
+								
+				System.out.println("After mutation");
+				// removed by Rob System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue());
+				System.out.println(i + " " + newMutation.getFitnessValue() + " String:" + newMutation.ToString());				
+				individuals[i] = newMutation;
+			}	
+		}
+		System.out.println("\nTest Mutation Done!");
+	}
+	
+	public void TestPopulationAfterMutation(){
+		
+		System.out.println("\nPopulation After Mutation:");
+		
+		for(int i = 0; i < N; i++){					
+			System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
+			 
+		 }
+		System.out.println("\nPopulation Test Done");
 	}
 }	

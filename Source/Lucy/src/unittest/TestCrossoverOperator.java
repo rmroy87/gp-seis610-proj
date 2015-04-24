@@ -1,14 +1,16 @@
 package unittest;
 import engine.*;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.LogManager;
+
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 import java.util.Random;
-
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -77,20 +79,37 @@ public class TestCrossoverOperator {
 		Individual offspring2;
 		
 		System.out.println("\nTest Cross-Over:");
-		// in population have the pair population[i], population[i+1] to use in crossover
-		for (int i = 0; i < populationSize - 1; i += 2){
-		    System.out.println("Before crossover: ");
-		    System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue() + " String: " + individuals[population[i]].ToString());
-		    System.out.println(population[i+1] + " " + individuals[population[i+1]].getFitnessValue() + " String: " + individuals[population[i+1]].ToString() ); 
-		    
-		    offspring1 = crosser.CrossOver(individuals[population[i]], individuals[population[i+1]]);			   
-		    offspring2 = crosser.CrossOver(individuals[population[i+1]], individuals[population[i]]);
-		    				
-		    System.out.println("After crossover ");
-		    System.out.println(population[i] + " " + offspring1.getFitnessValue() + " String: " + offspring1.ToString());
-		    System.out.println(population[i+1] + " " + offspring2.getFitnessValue() + " String: " + offspring2.ToString());
-		     
+		for(int j=0; j< 20; j++){
+			System.out.println("\nGeneration: " + j);
+			// in population have the pair population[i], population[i+1] to use in crossover
+			for (int i = 0; i < N - 1; i += 2){
+			    System.out.println("Before crossover: ");
+			    System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
+			    System.out.println((i+1) + " " + individuals[i+1].getFitnessValue() + " String: " + individuals[i+1].ToString() ); 
+			    
+			    offspring1 = crosser.CrossOver(individuals[i], individuals[i+1]);			   
+			    offspring2 = crosser.CrossOver(individuals[i+1], individuals[i]);
+			    				
+			    System.out.println("After crossover ");
+			    System.out.println(i + " " + offspring1.getFitnessValue() + " String: " + offspring1.ToString());
+			    System.out.println((i+1) + " " + offspring2.getFitnessValue() + " String: " + offspring2.ToString());
+			     
+			    individuals[i]   = offspring1;
+			    individuals[i+1] = offspring2;
+			}
 		}
-
+		
+		System.out.println("\nTest Cross-Over Done!");
+	}
+	
+	public void TestPopulationAfterCrossOver(){
+		
+		System.out.println("\nPopulation After Cross-Over:");
+		
+		for(int i = 0; i < N; i++){					
+			System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
+			 
+		 }
+		System.out.println("\nPopulation Test Done");
 	}
 }

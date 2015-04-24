@@ -26,7 +26,7 @@ public class TestPopulation {
 	public void test() throws SecurityException, FileNotFoundException, IOException {
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		TestPopulationCreate();
-		TestPopulationForGenerations(500);
+		TestPopulationForGenerations(50000);
 		TestSorting();
 		TestBestIndividual();
 

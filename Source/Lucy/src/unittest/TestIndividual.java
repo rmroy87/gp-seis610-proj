@@ -125,6 +125,8 @@ public class TestIndividual {
 		System.out.println();		
 	}
 	
+	
+	
 	/*
 	 * Create Populations over and over until a zero Fitness is found
 	 */
