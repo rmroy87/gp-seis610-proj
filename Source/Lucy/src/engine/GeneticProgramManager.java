@@ -26,7 +26,7 @@ public class GeneticProgramManager {
 			Population pop = new Population();
 			
 			// Debug Logging
-			for(Individual i : pop)  {
+			for(Individual i : pop.individuals)  {
 				logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 			}
 			
@@ -38,7 +38,7 @@ public class GeneticProgramManager {
 				pop = new Population(pop);
 				
 				// Debug Logging
-				for(Individual i : pop)  {
+				for(Individual i : pop.individuals)  {
 					logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 				}
 				
