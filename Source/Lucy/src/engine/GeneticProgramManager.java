@@ -24,18 +24,36 @@ public class GeneticProgramManager {
 			Population pop = new Population();
 			
 			// Debug Logging
+			long current = System.currentTimeMillis();
+			logger.log(Level.FINE, 
+					"BestFit for generation " + generation +
+					": " + pop.getBestIndividual().ToString() + 
+					", Fitness = " + pop.getBestIndividual().getFitnessValue() +
+					", Time = " + MessageFormatter.dateTime(current)
+					);
 			for(Individual i : pop.individuals)  {
 				logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 			}
 			
-			while (System.currentTimeMillis() < testStop && pop.getBestIndividual().getFitnessValue() != 0)
+			while ((System.currentTimeMillis() < testStop) && 
+					pop.getBestIndividual().getFitnessValue() != 0)
 			{			
+				
+				if (Settings.get().MaxIterations != 0 && generation <= Settings.get().MaxIterations)
+					break;
 				
 				// next generation
 				generation += 1;
 				pop = new Population(pop);
 				
 				// Debug Logging
+				current = System.currentTimeMillis();
+				logger.log(Level.FINE, 
+						"BestFit for generation " + generation +
+						": " + pop.getBestIndividual().ToString() + 
+						", Fitness = " + pop.getBestIndividual().getFitnessValue() +
+						", Time = " + MessageFormatter.dateTime(current)
+						);
 				for(Individual i : pop.individuals)  {
 					logger.log(Level.FINER, "Generation: " + generation + ", Individual: " + i.ToString() + ", Fitness = " + i.getFitnessValue() + "\n");
 				}
@@ -44,7 +62,9 @@ public class GeneticProgramManager {
 
 			logger.log(Level.FINE, "Actual stop time: " + MessageFormatter.dateTime(System.currentTimeMillis()));
 			
-			result = "Best Individual: " + pop.getBestIndividual().ToString()+ ", Fitness = " + pop.getBestIndividual().getFitnessValue();
+			result = "Best Individual: " + pop.getBestIndividual().ToString() + "\n" +
+					"Fitness = " + pop.getBestIndividual().getFitnessValue() + "\n" +
+					"No Generations = " + generation;
 			logger.log(Level.FINE, result);
 
 		} 
