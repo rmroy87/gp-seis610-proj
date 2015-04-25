@@ -3,15 +3,13 @@
  */
 package engine;
 
-import java.util.Random;
-
 /**
  * @author royr4
  *
  */
 public class BinaryTree {
 	private BinaryNode TreeRoot;  // Root Node for the Binary Tree
-	private Random engine;
+	private GP_Random engine;
 	private int BinaryTreeDepth;
 	
 	/*
@@ -21,9 +19,9 @@ public class BinaryTree {
 		Settings settings = Settings.get();		
 		//
 		// Randomly select the Depth of this BinaryTree
-		engine =  new Random();
+		engine = GP_Random.get();
 		
-		BinaryTreeDepth = engine.nextInt(settings.MaxTreeDepth);
+		BinaryTreeDepth = engine.NextInt(settings.MaxTreeDepth);
 		//System.out.print(String.format("Binary Tree: Depth=%d\n", BinaryTreeDepth));
 		
 		//
@@ -39,7 +37,7 @@ public class BinaryTree {
 			
 		//
 		// Randomly select the Depth of this BinaryTree
-		engine =   new Random();
+		engine = GP_Random.get();
 		
 		BinaryTreeDepth = theClone.BinaryTreeDepth;
 		//System.out.print(String.format("Binary Tree: Depth=%d\n", BinaryTreeDepth));
@@ -73,7 +71,13 @@ public class BinaryTree {
 		 * Create a random number for the modified nodes depth
 		 * based on the current depth of the tree.
 		 */
-		randomNum = engine.nextInt(settings.MaxTreeDepth - depthOfTree);
+		
+		if((settings.MaxTreeDepth - depthOfTree) <= 0){
+			randomNum = 0;
+		}else{
+			randomNum = engine.NextInt(settings.MaxTreeDepth - depthOfTree);
+		}
+		
 		
 		/*
 		 * Create the space and randomly populate the node.
@@ -128,8 +132,5 @@ public class BinaryTree {
 	*/
 	public int DepthofBinaryTree(){		
 		return TreeRoot.GetNodeDepth();
-	}
-	
-	
-	
+	}	
 }

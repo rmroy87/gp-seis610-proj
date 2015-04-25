@@ -6,6 +6,8 @@ import java.util.Random;
 public class Population {
 	  
 	  private int N;  // number of Individuals
+	  private long mutationCount;
+	  private long crossoverCount;
 	  private int CrossoverSize; // number of Individuals to crossover 
 	  private int MutateSize;    // number of Individuals to mutate 
 	  private int NewPopBaseSize;
@@ -31,6 +33,9 @@ public class Population {
 	  { 
 			Settings settings = Settings.get();
 				
+			mutationCount  = 0;
+			crossoverCount = 0;
+			  
 			individuals = new ArrayList<Individual>();
 			sortedIndividuals = new ArrayList<Individual>();
 			
@@ -72,6 +77,9 @@ public class Population {
 			Settings settings = Settings.get();
 			
 			N = settings.PopulationSize;
+			
+			mutationCount  = genX.mutationCount;
+			crossoverCount = genX.crossoverCount;
 			
 			/*
 			* calculate the number of individuals to mutate
@@ -231,6 +239,7 @@ public class Population {
 			  
 			  individuals.add(offspring1);
 			  individuals.add(offspring2);
+			  crossoverCount += 2;
 		  }
 	  }
 	  
@@ -248,7 +257,8 @@ public class Population {
 			  //System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
 			newMutation = Mutator.Mutate(individuals.get(mutationList[i]));
 			
-			individuals.add(newMutation);			
+			individuals.add(newMutation);
+			mutationCount++;
 		  }			
 	  }
 	  
@@ -297,25 +307,25 @@ public class Population {
 		    }
 	  }
 	  	
-	  //
-	  // Deprecated with the new constructor to work on next generation
-	  protected void NextGeneration(){
-		//CrossoverOperator crosser  = new CrossoverOperator();
-		//MutationOperator Mutator = new MutationOperator();
-		
-		//Settings settings = Settings.get();
-		//Individual[] nextPopulation = new Individual[settings.PopulationSize];
-		//ArrayList<Individual> nextPopulation = new ArrayList<Individual>();
-		
-		
-		/*
-		  for (int i = 0; i < settings.PopulationSize; i++)
-		 
-			//nextPopulation[i] = new Individual();
-			individuals.add(new Individual());
-		*/
-		
-		
+	  public long getCrossOVerCount(){
+		  return crossoverCount;
 	  }
+	  
+	  public long getMutationCount(){
+		  return mutationCount;
 	  }
+	  
+	  public int getPopulationSize(){
+		  return individuals.size();
+	  }
+	  
+	  public Individual getAnIndividual(int index){
+	
+		  if(index > individuals.size())
+			  index = individuals.size() - 1;
+		  
+		  return individuals.get(index);
+	  }
+	 
+}
 	  

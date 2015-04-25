@@ -8,8 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Random;
-
 
 /**
  * @author royr4
@@ -24,7 +22,8 @@ public class BinaryNode {
 	public static final int EXP_X_VAR = 1;
 	public static final int EXP_OPERATOR = 2;	
 	
-	private Random engine;
+	//private Random engine;
+	private GP_Random engine;
 	private int Type;           // Root, Branch, Leaf
 	private int Opperand;       // One of the operands, an X or a constant
 	private int ExpressionType; // Type of Expression: Constant, X, operator 
@@ -46,8 +45,8 @@ public class BinaryNode {
 		Settings settings = Settings.get();
 
 		int randNum;
-		ParentNode = NodeParent; 
-		engine =  new Random();
+		ParentNode = NodeParent; 	
+		engine = GP_Random.get();
 		DepthOfNode = NodeDepth;
 		//System.out.print(String.format("Node In: Depth=%d\n", NodeDepth));
 		//
@@ -57,16 +56,17 @@ public class BinaryNode {
 			RightBranch = null;
 			// 
 			// A LEAF_TYPE, either X Variable or a constant
-			randNum = engine.nextInt(100);
+			randNum = engine.NextInt(2);
 			//System.out.print(String.format("Leaf Node: Var or Cons=%d\n", randNum));
 			//
 			// Even Numbers mean a CONSTANT, ODD is X Variable
-			if((randNum % 2) == 0){
+			if(randNum == 0){
 				//
 				// Leaf node with one of the constant operands, so
 				// randomly select one of the operands.
 				ExpressionType = EXP_CONS;
-				randNum = engine.nextInt(settings.Operands.size());
+				//randNum = engine.nextInt(settings.Operands.size());
+				randNum = engine.NextInt(settings.Operands.size());
 				Opperand = Integer.parseInt(Settings.get().Operands.get(randNum).getValue());
 			}else{
 				//
@@ -78,7 +78,7 @@ public class BinaryNode {
 			//
 			// We are either a ROOT, or a BRANCH, but it doesn't
 			// matter, the creation is the same. 
-			randNum = engine.nextInt(settings.Operators.size());
+			randNum = engine.NextInt(settings.Operators.size());
 			ExpressionType = EXP_OPERATOR;
 			ExpressionOperator = Settings.get().Operators.get(randNum).getValue();
 			//System.out.print(String.format("Branch Node: TYPE=%d, Opperator=%s\n", ExpressionType,ExpressionOperator));
@@ -95,8 +95,8 @@ public class BinaryNode {
 	 */
 	public BinaryNode(BinaryNode NodeParent){	
 		ParentNode  = NodeParent; 		
-		DepthOfNode = 0;			
-		engine      =  new Random();		
+		DepthOfNode = 0;				
+		engine       = GP_Random.get();
 		LeftBranch  = null;
 		RightBranch = null;		
 	}
@@ -161,12 +161,12 @@ public class BinaryNode {
 		 */
 		if(DepthOfNode > 0){
 			
-			depthToGo = engine.nextInt(DepthOfNode);
+			depthToGo = engine.NextInt(DepthOfNode);
 			
 			do{			
-				randNum   = engine.nextInt(100);
+				randNum   = engine.NextInt(2);
 				
-				if((randNum % 2) == 0){
+				if(randNum == 0){
 					if(nodeSelectedToCopy.LeftBranch != null){
 						nodeSelectedToCopy = nodeSelectedToCopy.LeftBranch;
 						depthToGo = depthToGo - 1;
@@ -203,7 +203,7 @@ public class BinaryNode {
 		BinaryNode nodeSelectedToCopy = null;
 		int randNum;
 	
-		randNum   = engine.nextInt(2); /* Either a ZERO or a ONE */	
+		randNum   = engine.NextInt(2); /* Either a ZERO or a ONE */	
 		/*
 		 * If we are at the Depth that we would like to be at, simply
 		 * flip the coin and determine if we go LEFT or RIGHT. Then
@@ -260,7 +260,7 @@ public class BinaryNode {
 		 * Determine which NODE we want, in a totally random fashion
 		 */
 		if(DepthOfNode > 0){
-			depthToGo = engine.nextInt(DepthOfNode);
+			depthToGo = engine.NextInt(DepthOfNode);
 			nodeSelectedToCopy = GetBinaryNodeWithRecursion(depthToGo);	
 		}else{
 			nodeSelectedToCopy = this.DeepCopy();
@@ -277,7 +277,7 @@ public class BinaryNode {
 	{
 		int randNum;
 		
-		randNum   = engine.nextInt(2); /* Either a ZERO or a ONE */	
+		randNum   = engine.NextInt(2); /* Either a ZERO or a ONE */	
 	
 		/*
 		 * If we are at the Depth that we would like to be at, simply
@@ -342,7 +342,7 @@ public class BinaryNode {
 			if( DepthOfNode > nodeToInsert.DepthOfNode){
 				
 				maxPossibleDepth = DepthOfNode - nodeToInsert.DepthOfNode;
-				recurseIters = engine.nextInt(maxPossibleDepth);
+				recurseIters = engine.NextInt(maxPossibleDepth);
 			}else{
 				/*
 				 * This is the depth that we will need to insert at
