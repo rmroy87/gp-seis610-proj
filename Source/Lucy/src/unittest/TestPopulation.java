@@ -1,11 +1,15 @@
 package unittest;
 import engine.*;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.LogManager;
+
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 import java.util.Random;
 
 public class TestPopulation {
@@ -26,9 +30,9 @@ public class TestPopulation {
 	public void test() throws SecurityException, FileNotFoundException, IOException {
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		TestPopulationCreate();
-		TestPopulationForGenerations(50000);
-		TestSorting();
-		TestBestIndividual();
+		TestPopulationForGenerations(10000);
+		//TestSorting();
+		//TestBestIndividual();
 
 	}
 		/*
@@ -47,7 +51,11 @@ public class TestPopulation {
 		}
 		
 		public void TestPopulationForGenerations(int numGens){
-						
+				
+			Individual anIndividual;
+			float theFitness  = (float)100;
+			float bestFitness = (float)1000.0;
+			
 			System.out.println(" Running " + numGens + " Generations...");
 			
 			for (int i = 0; i < numGens; i++){
@@ -55,12 +63,39 @@ public class TestPopulation {
 				
 				TheBestIndividual = ThePopulation.getBestIndividual();
 				
-				System.out.println("Gen[" + i + "]--Best Individual String:  " + TheBestIndividual.ToString()); 
-				System.out.println("Gen[" + i + "]--Best Individual Fitness: " + TheBestIndividual.getFitnessValue()); 
+				theFitness = TheBestIndividual.getFitnessValue();
+				
+				if(theFitness < bestFitness){
+				
+					bestFitness = theFitness;
+					System.out.println("Gen[" + i + "]--Best Individual String:  " + TheBestIndividual.ToString()); 
+					System.out.println("Gen[" + i + "]--Best Individual Fitness: " + TheBestIndividual.getFitnessValue()); 
+				}
+				
+				if(bestFitness == (float) 0.0){
+					System.out.println("\n\nFitness of 0 achieved!!");
+					break;
+				}
 				
 			}
-			  
+			System.out.println("\nTest Generations Complete\n");
+			System.out.println("Final--Best Individual String:  " + TheBestIndividual.ToString()); 
+			System.out.println("Final--Best Individual Fitness: " + TheBestIndividual.getFitnessValue()); 
+		
 			
+			System.out.println("Population Size:   " + ThePopulation.getPopulationSize());
+			System.out.println("Mutation Count:    " + ThePopulation.getMutationCount());
+			System.out.println("Cross-Over Count:  " + ThePopulation.getCrossOVerCount());
+			
+			System.out.println("\nThe End Population:  ");
+			for (int i = 0; i < ThePopulation.getPopulationSize(); i++){
+				anIndividual = ThePopulation.getAnIndividual(i); 
+			  
+				System.out.println("[" + i + "] Fitness -- " + anIndividual.getFitnessValue() + "-- String:  " + anIndividual.ToString()); 
+				
+			  }
+			  
+			System.out.println("\nTest Population Complete\n");
 		}
 	
 		/*
@@ -68,23 +103,23 @@ public class TestPopulation {
 		 */
 		public void TestSorting(){
 
-	    populationSize = n ; 
-	    
-	    // create new population
-	    population = new int[populationSize];
-
-	    double[] fitnessValues = new double[N];
-	    for (int i = 0; i < N; i++)
-	      fitnessValues[i] = individuals[i].getFitnessValue();
-	  
-	    FitnessSelectionOperator.selectBest(fitnessValues, N,  
-					population, populationSize);
-
-	      {
-		System.out.println("Sorted by Fitness Value");
-		for (int i = 0; i < populationSize; i++)
-		  System.out.println(population[i] + " " 
-				     + individuals[population[i]].getFitnessValue());}
+		    populationSize = n ; 
+		    
+		    // create new population
+		    population = new int[populationSize];
+	
+		    double[] fitnessValues = new double[N];
+		    for (int i = 0; i < N; i++)
+		      fitnessValues[i] = individuals[i].getFitnessValue();
+		  
+		    FitnessSelectionOperator.selectBest(fitnessValues, N,  
+						population, populationSize);
+	
+		      {
+			System.out.println("Sorted by Fitness Value");
+			for (int i = 0; i < populationSize; i++)
+			  System.out.println(population[i] + " " 
+					     + individuals[population[i]].getFitnessValue());}
 		}
 	  
 		/*
