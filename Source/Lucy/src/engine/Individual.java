@@ -162,4 +162,12 @@ public class Individual {
 		return FitnessValue;
 	}
 	
+	/*
+	 * Method to get the depth of the Binary Tree
+	 */
+	public int getIndividualTreeDepth()
+	{
+		return TheBinaryTree.DepthofBinaryTree();
+	}
+	
 }

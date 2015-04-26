@@ -2,12 +2,16 @@ package engine;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Population {
-	  
+	  private static Logger logger = Logger.getLogger( GeneticProgramManager.class.getName() );
+	
 	  private int N;  // number of Individuals
-	  private long mutationCount;
-	  private long crossoverCount;
+	  private long mutationCount;   // Total Cross-overs created for this population
+	  private long crossoverCount;  // Total Mutations created for this population
+	  private long individualCount; // Total Individuals created for this population
 	  private int CrossoverSize; // number of Individuals to crossover 
 	  private int MutateSize;    // number of Individuals to mutate 
 	  private int NewPopBaseSize;
@@ -35,6 +39,7 @@ public class Population {
 				
 			mutationCount  = 0;
 			crossoverCount = 0;
+			individualCount = 0;
 			  
 			individuals = new ArrayList<Individual>();
 			sortedIndividuals = new ArrayList<Individual>();
@@ -43,6 +48,9 @@ public class Population {
 			
 			for(int i = 0; i < settings.InitPopulationSize; i++){			
 				individuals.add(new Individual());
+				logger.log(Level.FINER, "Individual[" + i + "] - FIT: " + individuals.get(i).getFitnessValue() + " DEPTH: " + individuals.get(i).getIndividualTreeDepth() + " STRING: "  + individuals.get(i).ToString());
+			
+				individualCount++;
 			}
 			
 			/*
@@ -80,6 +88,7 @@ public class Population {
 			
 			mutationCount  = genX.mutationCount;
 			crossoverCount = genX.crossoverCount;
+			individualCount = genX.individualCount;
 			
 			/*
 			* calculate the number of individuals to mutate
@@ -91,6 +100,7 @@ public class Population {
 			CrossoverSize = genX.CrossoverSize;
 			
 			NewPopBaseSize = N - CrossoverSize - MutateSize;
+			
 			/*
 			 * Select our best fitness individuals to carry forward based on probability
 			 */
@@ -232,14 +242,15 @@ public class Population {
 			  //System.out.println("CR[" + i + "]- 1: " + crossOverList[i] + " String: " + individuals.get(crossOverList[i]).ToString());
 			  //System.out.println("CR[" + (i+1) + "]- 2: " + crossOverList[i + 1] + " String: " + individuals.get(crossOverList[i+1]).ToString());
 			  
-			  offspring1 = crosser.CrossOver(individuals.get(crossOverList[i]), individuals.get(crossOverList[i+1]));
-			  offspring2 = crosser.CrossOver(individuals.get(crossOverList[i+1]), individuals.get(crossOverList[i]));
-			
+			  offspring1 = crosser.CrossOver(crossoverCount,individuals.get(crossOverList[i]), individuals.get(crossOverList[i+1]));
+			  crossoverCount++;
+			  offspring2 = crosser.CrossOver(crossoverCount,individuals.get(crossOverList[i+1]), individuals.get(crossOverList[i]));
+			  crossoverCount++;
 			  //System.out.println("CR[" + i + "]- OUT: ");
 			  
 			  individuals.add(offspring1);
 			  individuals.add(offspring2);
-			  crossoverCount += 2;
+			  individualCount += 2;
 		  }
 	  }
 	  
@@ -255,10 +266,11 @@ public class Population {
 		  
 		  for (int i = 0; i < MutateSize; i++){	
 			  //System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
-			newMutation = Mutator.Mutate(individuals.get(mutationList[i]));
+			newMutation = Mutator.Mutate(mutationCount, individuals.get(mutationList[i]));
 			
 			individuals.add(newMutation);
 			mutationCount++;
+			individualCount ++;
 		  }			
 	  }
 	  
@@ -307,6 +319,10 @@ public class Population {
 		    }
 	  }
 	  	
+	  public long getIndividualCount(){
+		  return individualCount;
+	  }
+	  
 	  public long getCrossOVerCount(){
 		  return crossoverCount;
 	  }

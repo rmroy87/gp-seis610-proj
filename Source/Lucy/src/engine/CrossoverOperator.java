@@ -1,7 +1,12 @@
 package engine;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class CrossoverOperator {
 	
+	private static Logger logger = Logger.getLogger( GeneticProgramManager.class.getName() );
+
 	public CrossoverOperator(){
 		
 	}
@@ -9,7 +14,7 @@ public class CrossoverOperator {
 	/*
 	 * Create a NEW Individual using a cloned parent, and a doner parent.
 	 */
-	public Individual CrossOver(Individual cloneParent, Individual donerParent){
+	public Individual CrossOver(long crossOverIndex, Individual cloneParent, Individual donerParent){
 		BinaryNode crossSelect = null;		
 		Individual offspring;
 		
@@ -28,6 +33,10 @@ public class CrossoverOperator {
 		 */
 		offspring.InsertBinaryNodeRandomly(crossSelect);
 
+		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Parent - FIT: " + cloneParent.getFitnessValue() + " DEPTH: " + cloneParent.getIndividualTreeDepth() + " STRING: " + cloneParent.ToString());
+		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Select: - DEPTH: " + crossSelect.GetNodeDepth() + " STRING: " + crossSelect.ResolveNodeString());
+		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Offspring - FIT: " + offspring.getFitnessValue() + " DEPTH: " + offspring.getIndividualTreeDepth() + " STRING: " + offspring.ToString());
+		
 		/*
 		 * Return a NEW Individual, created from a cross over
 		 */
