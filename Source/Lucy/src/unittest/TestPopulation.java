@@ -30,7 +30,7 @@ public class TestPopulation {
 	public void test() throws SecurityException, FileNotFoundException, IOException {
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		TestPopulationCreate();
-		TestPopulationForGenerations(10000);
+		TestPopulationForGenerations(500);
 		//TestSorting();
 		//TestBestIndividual();
 
@@ -84,6 +84,7 @@ public class TestPopulation {
 		
 			
 			System.out.println("Population Size:   " + ThePopulation.getPopulationSize());
+			System.out.println("Individual Count:  " + ThePopulation.getIndividualCount());
 			System.out.println("Mutation Count:    " + ThePopulation.getMutationCount());
 			System.out.println("Cross-Over Count:  " + ThePopulation.getCrossOVerCount());
 			
