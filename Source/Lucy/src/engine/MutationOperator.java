@@ -27,8 +27,8 @@ public class MutationOperator {
 		 */
 		newMutation.ModifyIndividualRandomly();	
 		
-		logger.log(Level.FINER, "Mutate[" + mutationIndex + "] - Doner - FIT: " + clonedIndividual.getFitnessValue() + " DEPTH: " + clonedIndividual.getIndividualTreeDepth() + " STRING: " + clonedIndividual.ToString());
-		logger.log(Level.FINER, "Mutate[" + mutationIndex + "] - Mutation - FIT: " + newMutation.getFitnessValue() + " DEPTH: " + newMutation.getIndividualTreeDepth() + " STRING: " + newMutation.ToString());
+		logger.log(Level.FINEST, "Mutate[" + mutationIndex + "] - Doner - FIT: " + clonedIndividual.getFitnessValue() + " DEPTH: " + clonedIndividual.getIndividualTreeDepth() + " STRING: " + clonedIndividual.ToString());
+		logger.log(Level.FINEST, "Mutate[" + mutationIndex + "] - Mutation - FIT: " + newMutation.getFitnessValue() + " DEPTH: " + newMutation.getIndividualTreeDepth() + " STRING: " + newMutation.ToString());
 		
 		return newMutation;	
 	}

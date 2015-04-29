@@ -33,9 +33,9 @@ public class CrossoverOperator {
 		 */
 		offspring.InsertBinaryNodeRandomly(crossSelect);
 
-		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Parent - FIT: " + cloneParent.getFitnessValue() + " DEPTH: " + cloneParent.getIndividualTreeDepth() + " STRING: " + cloneParent.ToString());
-		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Select: - DEPTH: " + crossSelect.GetNodeDepth() + " STRING: " + crossSelect.ResolveNodeString());
-		logger.log(Level.FINER, "Cross-Over[" + crossOverIndex + "] - Offspring - FIT: " + offspring.getFitnessValue() + " DEPTH: " + offspring.getIndividualTreeDepth() + " STRING: " + offspring.ToString());
+		logger.log(Level.FINEST, "Cross-Over[" + crossOverIndex + "] - Parent - FIT: " + cloneParent.getFitnessValue() + " DEPTH: " + cloneParent.getIndividualTreeDepth() + " STRING: " + cloneParent.ToString());
+		logger.log(Level.FINEST, "Cross-Over[" + crossOverIndex + "] - Select: - DEPTH: " + crossSelect.GetNodeDepth() + " STRING: " + crossSelect.ResolveNodeString());
+		logger.log(Level.FINEST, "Cross-Over[" + crossOverIndex + "] - Offspring - FIT: " + offspring.getFitnessValue() + " DEPTH: " + offspring.getIndividualTreeDepth() + " STRING: " + offspring.ToString());
 		
 		/*
 		 * Return a NEW Individual, created from a cross over

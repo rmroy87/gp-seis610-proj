@@ -50,7 +50,7 @@ public class Population {
 			
 			for(int i = 0; i < settings.InitPopulationSize; i++){			
 				individuals.add(new Individual());
-				logger.log(Level.FINER, "Individual[" + i + "] - FIT: " + individuals.get(i).getFitnessValue() + " DEPTH: " + individuals.get(i).getIndividualTreeDepth() + " STRING: "  + individuals.get(i).ToString());
+				logger.log(Level.FINEST, "Individual[" + i + "] - FIT: " + individuals.get(i).getFitnessValue() + " DEPTH: " + individuals.get(i).getIndividualTreeDepth() + " STRING: "  + individuals.get(i).ToString());
 			
 				individualCount++;
 			}
