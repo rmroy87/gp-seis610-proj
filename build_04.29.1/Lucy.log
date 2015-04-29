@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2015-04-29T07:18:44</date>
+  <millis>1430309924885</millis>
+  <sequence>0</sequence>
+  <logger>ui.lucyapp</logger>
+  <level>CONFIG</level>
+  <class>ui.lucyapp$4$1</class>
+  <method>doInBackground</method>
+  <thread>20</thread>
+  <message>Loading C:\UST\Software Engineering\ClassProject\build_04.29.1\.\settings.xml</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:44</date>
+  <millis>1430309924970</millis>
+  <sequence>1</sequence>
+  <logger>engine.Settings</logger>
+  <level>CONFIG</level>
+  <class>engine.Settings</class>
+  <method>logSettings</method>
+  <thread>20</thread>
+  <message>
+SETTINGS: 
+  INIT POPULATION SIZE: 500
+  POPULATION SIZE: 100
+  MUTATION PROBABILITY: 0.1
+  CROSSOVER PROBABILITY: 0.5
+  MAX DURATITION: 10
+  MAX ITERATIONS: 0
+  MAX TREE DEPTH: 5
+  KEEPER THRESHOLD: 20
+  TARGET FUNCTION: (X^2 - 1) / 2
+  OPERATNDS: 0,1,2,3,4,5,6,7,8,9,
+  OPERATORS: +,-,/,*,
+  TRAINING DATA: 
+		(-10.0,49.5)
+		(-9.0,40.0)
+		(-8.0,31.5)
+		(-7.0,24.0)
+		(-6.0,17.5)
+		(-5.0,12.0)
+		(-4.0,7.5)
+		(-3.0,4.0)
+		(-2.0,1.5)
+		(-1.0,0.0)
+		(0.0,-0.5)
+		(1.0,0.0)
+		(2.0,1.5)
+		(3.0,4.0)
+		(4.0,7.5)
+		(5.0,12.0)
+		(6.0,17.5)
+		(7.0,24.0)
+		(8.0,31.5)
+		(9.0,40.0)
+		(10.0,49.5)
+
+</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925000</millis>
+  <sequence>2</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>initializeEngine</method>
+  <thread>20</thread>
+  <message>ACTUAL START TIME:  2015/04/29 07:18:44</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925001</millis>
+  <sequence>3</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>initializeEngine</method>
+  <thread>20</thread>
+  <message>TARGET STOP TIME:  2015/04/29 07:18:54</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925305</millis>
+  <sequence>4</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 1: (((X * 8) / (X + 1)) + ((X / 4) * (X + 7))), FITNESS: 196.54257, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925373</millis>
+  <sequence>5</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 3: (X + ((X - 6) / (3 / X))), FITNESS: 136.5, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925403</millis>
+  <sequence>6</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 5: (((X / 4) * (X + 7)) + ((X - 6) / (3 / X))), FITNESS: 74.66666, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925453</millis>
+  <sequence>7</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 7: (((2 * X) / (3 / X)) - ((X / 4) * X)), FITNESS: 57.0, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925470</millis>
+  <sequence>8</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 8: ((X / (X + 1)) + ((X / 4) * (X + X))), FITNESS: 30.309093, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925517</millis>
+  <sequence>9</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 12: (0 + ((X / 4) * (X + X))), FITNESS: 10.5, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925571</millis>
+  <sequence>10</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 17: (((2 - X) / (X * 8)) + ((X / 4) * (2 * X))), FITNESS: 8.0, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:45</date>
+  <millis>1430309925725</millis>
+  <sequence>11</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 29: (((2 - X) / (X * 4)) + ((X / 4) * (2 * X))), FITNESS: 6.0, TIME: 0</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:46</date>
+  <millis>1430309926056</millis>
+  <sequence>12</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 76: (((1 - X) / (X * 4)) + ((X / 4) * (X + X))), FITNESS: 5.5, TIME: 1</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:46</date>
+  <millis>1430309926061</millis>
+  <sequence>13</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 77: (((1 - X) / (X * 2)) + ((X / 4) * (2 * X))), FITNESS: 3.4289715, TIME: 1</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:46</date>
+  <millis>1430309926089</millis>
+  <sequence>14</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 82: (((0 - X) / (X * 2)) + ((X / 4) * (2 * X))), FITNESS: 0.5, TIME: 1</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:51</date>
+  <millis>1430309931033</millis>
+  <sequence>15</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>FINE</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>BESTFIT FOR GENERATION 4094: (((X / 2) * X) + ((2 - 3) / (1 * 2))), FITNESS: 0.0, TIME: 6</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:51</date>
+  <millis>1430309931034</millis>
+  <sequence>16</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>ACTUAL STOP TIME:  2015/04/29 07:18:51</message>
+</record>
+<record>
+  <date>2015-04-29T07:18:51</date>
+  <millis>1430309931034</millis>
+  <sequence>17</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>20</thread>
+  <message>RESULT: (((X / 2) * X) + ((2 - 3) / (1 * 2)))
+FITNESS: 0.0
+NUMBER OF GENERATIONS: 4094
+NUMBER OF SECONDS: 6</message>
+</record>
+</log>
