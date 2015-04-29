@@ -30,7 +30,7 @@ public class TestPopulation {
 	public void test() throws SecurityException, FileNotFoundException, IOException {
 		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
 		TestPopulationCreate();
-		TestPopulationForGenerations(500);
+		TestPopulationForGenerations(5000);
 		//TestSorting();
 		//TestBestIndividual();
 
@@ -92,7 +92,7 @@ public class TestPopulation {
 			for (int i = 0; i < ThePopulation.getPopulationSize(); i++){
 				anIndividual = ThePopulation.getAnIndividual(i); 
 			  
-				System.out.println("[" + i + "] Fitness -- " + anIndividual.getFitnessValue() + "-- String:  " + anIndividual.ToString()); 
+				System.out.println("[" + i + "] Fitness -- " + anIndividual.getFitnessValue() + " HASH -- " + anIndividual.HashCode() + "-- String:  " + anIndividual.ToString()); 
 				
 			  }
 			  

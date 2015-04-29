@@ -87,8 +87,8 @@ public class TestCrossoverOperator {
 			    System.out.println(i + " " + individuals[i].getFitnessValue() + " String: " + individuals[i].ToString());
 			    System.out.println((i+1) + " " + individuals[i+1].getFitnessValue() + " String: " + individuals[i+1].ToString() ); 
 			    
-			    offspring1 = crosser.CrossOver(individuals[i], individuals[i+1]);			   
-			    offspring2 = crosser.CrossOver(individuals[i+1], individuals[i]);
+			    offspring1 = crosser.CrossOver(i,individuals[i], individuals[i+1]);
+			    offspring2 = crosser.CrossOver(i+1,individuals[i+1], individuals[i]);
 			    				
 			    System.out.println("After crossover ");
 			    System.out.println(i + " " + offspring1.getFitnessValue() + " String: " + offspring1.ToString());

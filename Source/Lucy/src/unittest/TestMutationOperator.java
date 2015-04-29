@@ -89,7 +89,7 @@ public class TestMutationOperator {
 				 * and then execute the random mutation on that cloned copy.  The original
 				 * Individual does not change.
 				 */
-				newMutation = Mutator.Mutate(individuals[i]);
+				newMutation = Mutator.Mutate(i, individuals[i]);
 								
 				System.out.println("After mutation");
 				// removed by Rob System.out.println(population[i] + " " + individuals[population[i]].getFitnessValue());
