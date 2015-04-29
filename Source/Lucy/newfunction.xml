@@ -1,13 +1,13 @@
 <Settings>
-	<InitPopulationSize>500</InitPopulationSize>
-	<PopulationSize>100</PopulationSize>
-	<MutationProbability>0.1</MutationProbability>
-	<CrossoverProbability>0.5</CrossoverProbability>
-	<MaxDuration>10</MaxDuration>
+	<InitPopulationSize>200</InitPopulationSize>
+	<PopulationSize>50</PopulationSize>
+	<MutationProbability>0.3</MutationProbability>
+	<CrossoverProbability>0.6</CrossoverProbability>
+	<MaxDuration>900</MaxDuration>
 	<MaxIterations>0</MaxIterations>
 	<MaxTreeDepth>5</MaxTreeDepth>
-	<KeeperThreshhold>20</KeeperThreshhold>
-	<Function>(X^2 - 1) / 2</Function>
+	<KeeperThreshhold>5</KeeperThreshhold>
+	<Function>(x^2 - 10)/3</Function>
 	<Operators>
 		<Operator>
 			<value>+</value>
@@ -56,67 +56,67 @@
 	</Operands>
 	<Training>
 		<OrderedPair>
-			<X>-10</X><Y>49.5</Y>
+			<X>-10</X><Y>30</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-9</X> <Y>40</Y>
+			<X>-9</X> <Y>23.66667</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-8</X> <Y>31.5</Y>
+			<X>-8</X> <Y>18</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-7</X> <Y>24</Y>
+			<X>-7</X> <Y>13</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-6</X> <Y>17.5</Y>
+			<X>-6</X> <Y>8.666667</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-5</X> <Y>12</Y>
+			<X>-5</X> <Y>5</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-4</X> <Y>7.5</Y>
+			<X>-4</X> <Y>2</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-3</X> <Y>4</Y>
+			<X>-3</X> <Y>-0.333333</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-2</X> <Y>1.5</Y>
+			<X>-2</X> <Y>-2</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>-1</X> <Y>0</Y>
+			<X>-1</X> <Y>-3</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>0</X>  <Y>-0.5</Y>
+			<X>0</X>  <Y>-3.33333</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>1</X>  <Y>0</Y>
+			<X>1</X>  <Y>-3</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>2</X>  <Y>1.5</Y>
+			<X>2</X>  <Y>-2</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>3</X>  <Y>4</Y>
+			<X>3</X>  <Y>-0.333333</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>4</X>  <Y>7.5</Y>
+			<X>4</X>  <Y>2</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>5</X>  <Y>12</Y>
+			<X>5</X>  <Y>5</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>6</X>  <Y>17.5</Y>
+			<X>6</X>  <Y>8.6666667</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>7</X>  <Y>24</Y>
+			<X>7</X>  <Y>13</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>8</X>  <Y>31.5</Y>
+			<X>8</X>  <Y>18</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>9</X>  <Y>40</Y>
+			<X>9</X>  <Y>23.666667</Y>
 		</OrderedPair>
 		<OrderedPair>
-			<X>10</X> <Y>49.5</Y>
+			<X>10</X> <Y>30</Y>
 		</OrderedPair>
 	</Training>
 </Settings>
