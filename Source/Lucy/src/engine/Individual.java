@@ -13,6 +13,8 @@ public class Individual {
 	private boolean   FitnessCalculated; // Have we calculated fitness?
 	private String    IndividualString;  // Binary Tree converted to a string
 	private BinaryTree  TheBinaryTree;   // Binary tree for this individual
+	private int		  IndividualHashCode; 
+	private boolean   HashCodeCalculated;
 	
 	/*
 	*   Basic Constructor, will randomly generate an Individual
@@ -23,6 +25,8 @@ public class Individual {
 		FitnessCalculated = false;
 		FitnessValue = (float) 0.0;
 		IndividualString = null;
+		IndividualHashCode = 0;
+		HashCodeCalculated = false;
 		
 		TheBinaryTree = new BinaryTree(settings.MaxTreeDepth);	
 		
@@ -37,7 +41,9 @@ public class Individual {
 		
 		FitnessCalculated 	= toClone.FitnessCalculated;
 		FitnessValue 		= toClone.FitnessValue;
-		IndividualString 	= null;		
+		IndividualString 	= null;	
+		IndividualHashCode  = 0;
+		HashCodeCalculated = false;
 		TheBinaryTree 		= toClone.TheBinaryTree.DeepCopyClone();			
 	}
 	
@@ -136,6 +142,25 @@ public class Individual {
 		return FitnessValue;
 	}
 
+	/*
+	 * Method used to calculate the unique Hash Tag for this 
+	 * individual.  It will be calculated just one time, and
+	 * save for future reference.
+	 */
+	public int HashCode(){
+		
+		if( HashCodeCalculated == false ){
+		
+			ToString();
+		
+			IndividualHashCode = IndividualString.hashCode();
+		
+			HashCodeCalculated = true;
+		}
+		
+		return IndividualHashCode;
+	}
+	
 	/*
 	 * Method used to generate the string equation version of
 	 * the binary tree for this individual.

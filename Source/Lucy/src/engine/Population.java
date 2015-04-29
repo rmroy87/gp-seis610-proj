@@ -14,7 +14,9 @@ public class Population {
 	  private long individualCount; // Total Individuals created for this population
 	  private int CrossoverSize; // number of Individuals to crossover 
 	  private int MutateSize;    // number of Individuals to mutate 
-	  private int NewPopBaseSize;
+	  private int CrossOverSelectFromSize;
+	  private int MutationSelectFromSize;
+	  
 	  //private static Individual[] individuals;    // population of Individuals
 	  ArrayList<Individual> individuals;
 	  ArrayList<Individual> sortedIndividuals;
@@ -99,7 +101,7 @@ public class Population {
 			*/
 			CrossoverSize = genX.CrossoverSize;
 			
-			NewPopBaseSize = N - CrossoverSize - MutateSize;
+			//NewPopBaseSize = N - CrossoverSize - MutateSize;
 			
 			/*
 			 * Select our best fitness individuals to carry forward based on probability
@@ -173,27 +175,27 @@ public class Population {
 	/*
 	* probability of being selected 
 	*/
-	  private void selectMutateProb(int n)
+	  private void selectMutateProb(int n, int mutateSelectSize)
 	  {
 			// compute individual selection probabilities based on fitness
 			computeProbabilities();
 					
 			mutationList = new int[n];
 			
-			FitnessSelectionOperator.selectProb(NewPopBaseSize, probabilities, mutationList, n, rand);
+			FitnessSelectionOperator.selectProb(mutateSelectSize, probabilities, mutationList, n, rand);
 	  }
 	  
 	/*
 	* probability of being selected 
 	*/
-	  private void selectCrossOverProb(int n)
+	  private void selectCrossOverProb(int n, int crossOverSelectSize)
 	  {
 			// compute individual selection probabilities based on fitness
 			computeProbabilities();			
 			
 			crossOverList = new int[n];
 			
-			FitnessSelectionOperator.selectProb(NewPopBaseSize, probabilities, crossOverList, n, rand);
+			FitnessSelectionOperator.selectProb(crossOverSelectSize, probabilities, crossOverList, n, rand);
 	  }
 
 
@@ -206,9 +208,9 @@ public class Population {
 		  	double overallProb = 0.0;
 		  	int sizePop = individuals.size();
 		  	
-		  	if (sizePop > NewPopBaseSize){
-		  		sizePop = NewPopBaseSize;
-		  	}
+		  	//if (sizePop > NewPopBaseSize){
+		  	//	sizePop = NewPopBaseSize;
+		  	//}
 		  	
 			for (int j = 0; j < sizePop; j++){
 			  // want the smallest fitness value have the greatest probability
@@ -236,7 +238,7 @@ public class Population {
 		  Individual offspring1;
 		  Individual offspring2;
 	  
-		  selectCrossOverProb(CrossoverSize);
+		  selectCrossOverProb(CrossoverSize, individuals.size() - 1);
 			
 		  for (int i = 0; i < CrossoverSize - 1; i += 2){			
 			  //System.out.println("CR[" + i + "]- 1: " + crossOverList[i] + " String: " + individuals.get(crossOverList[i]).ToString());
@@ -262,7 +264,7 @@ public class Population {
 		  Individual newMutation;	
 		  MutationOperator Mutator = new MutationOperator();
 		  
-		  selectMutateProb(MutateSize); 
+		  selectMutateProb(MutateSize, individuals.size() - 1); 
 		  
 		  for (int i = 0; i < MutateSize; i++){	
 			  //System.out.println("MU[" + i + "]- 1: " + mutationList[i]);
@@ -281,15 +283,61 @@ public class Population {
 	  private void Keepers(Population genX)
 	  {	 
 		    int numKeepers = N - CrossoverSize - MutateSize;
+		    int[] theHashes = new int[numKeepers];
+		    int hashCount = 0;
+		    boolean hashTagFound = false;
+		    int newHashCode;
+		    GP_Random engine = GP_Random.get();
+		    int randIndex;
+		    MutationOperator Mutator = new MutationOperator();
+		    
 		    // Don't need here with sorted array list from last Gen 
 		    // selectBest(N - CrossoverSize - MutateSize);
 		    
 			for (int i = 0 ; i < numKeepers; i++){
 				/*
-				 * Copy the desired individuals from the last generation to the new
-				 * generation.
+				 * Since we are avoid duplicates, there is a chance that we
+				 * may run out of Individuals.
 				 */
-				individuals.add(genX.individuals.get(i));
+				if (i < genX.individuals.size()){
+					hashTagFound = false;
+					newHashCode = genX.individuals.get(i).HashCode();
+					/*
+					 * Search the array and see if we already have this individual in 
+					 * the new population, if so, don't add it, we don't want to fill
+					 * up the new population with duplicates.
+					 */
+					for(int j=0; j < hashCount; j++){
+						
+						if( newHashCode == theHashes[j]){
+							hashTagFound = true;
+							break;
+						}
+					}
+					/*
+					 * Copy the desired individuals from the last generation to the new
+					 * generation, if it was not already in there...
+					 */
+					if(hashTagFound == false){
+						individuals.add(genX.individuals.get(i));
+						theHashes[hashCount] = newHashCode;
+						hashCount++;
+					}
+				}else{
+					break; /* We are already out of new individuals */
+				}
+			}
+			
+			if(hashCount < numKeepers){
+				//System.out.println("We are screwed");
+				
+				for(int i=0; i < (numKeepers - hashCount); i++){
+					randIndex = engine.NextInt(genX.individuals.size());
+					//individuals.add(genX.individuals.get(randIndex));
+					individuals.add(Mutator.Mutate(mutationCount, genX.individuals.get(randIndex)));
+					mutationCount++;
+					//newMutation = Mutator.Mutate(mutationCount, individuals.get(mutationList[i]));
+				}
 			}
 	  }
 	  

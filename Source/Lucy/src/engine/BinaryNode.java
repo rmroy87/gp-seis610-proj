@@ -56,11 +56,11 @@ public class BinaryNode {
 			RightBranch = null;
 			// 
 			// A LEAF_TYPE, either X Variable or a constant
-			randNum = engine.NextInt(2);
+			randNum = engine.NextInt(5);
 			//System.out.print(String.format("Leaf Node: Var or Cons=%d\n", randNum));
 			//
 			// Even Numbers mean a CONSTANT, ODD is X Variable
-			if(randNum == 0){
+			if((randNum >= 0) && (randNum < 3)){
 				//
 				// Leaf node with one of the constant operands, so
 				// randomly select one of the operands.
