@@ -128,10 +128,12 @@ public class BinaryTree {
 	}
 	
 	/*
-	* Resolve the Binary Tree for a given value of Y
+	* Resolve the Binary Tree for a given value of Y, all Binary Tree
+	* Depth is ZERO relative, but to the Individual, it is One relative
+	* so add one to our return value.
 	*/
 	public int DepthofBinaryTree(){	
 		BinaryTreeDepth = TreeRoot.GetNodeDepth();
-		return BinaryTreeDepth;
+		return BinaryTreeDepth + 1;
 	}	
 }

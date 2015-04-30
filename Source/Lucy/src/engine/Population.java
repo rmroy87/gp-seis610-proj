@@ -339,8 +339,8 @@ public class Population {
 		    boolean hashTagFound = false;
 		    int newHashCode;
 		    GP_Random engine = GP_Random.get();
-		    int randIndex;
-		    MutationOperator Mutator = new MutationOperator();
+		    //int randIndex;
+		    //MutationOperator Mutator = new MutationOperator();
 		    
 		    // Don't need here with sorted array list from last Gen 
 		    // selectBest(N - CrossoverSize - MutateSize);
@@ -383,7 +383,7 @@ public class Population {
 				//System.out.println("We are screwed");
 				
 				for(int i=0; i < (numKeepers - hashCount); i++){
-					randIndex = engine.NextInt(genX.individuals.size());
+					//randIndex = engine.NextInt(genX.individuals.size());
 					individuals.add(new Individual());
 					//individuals.add(Mutator.Mutate(mutationCount, genX.individuals.get(randIndex)));
 					//mutationCount++;
