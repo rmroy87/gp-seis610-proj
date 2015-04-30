@@ -303,7 +303,7 @@ public class BinaryNode {
 				if((LeftBranch == null) || (LeftBranch.DepthOfNode == 0)){
 					LeftBranch  = nodeToInsert;
 					nodeToInsert.ParentNode = this; 
-					
+					DepthOfNode = nodeToInsert.DepthOfNode + 1;
 				}else{
 					LeftBranch.InsertNode(nodeToInsert, depthToRecurse);
 				}
@@ -311,18 +311,18 @@ public class BinaryNode {
 				if((RightBranch == null) || (RightBranch.DepthOfNode == 0)){
 					RightBranch  = nodeToInsert;
 					nodeToInsert.ParentNode = this; 
-					
+					DepthOfNode = nodeToInsert.DepthOfNode + 1;
 				}else{
 					RightBranch.InsertNode(nodeToInsert, depthToRecurse);
 				}
 								
 			}	
-			
-			if(LeftBranch.DepthOfNode > RightBranch.DepthOfNode){
-				DepthOfNode = LeftBranch.DepthOfNode + 1;
-			}else{
-				DepthOfNode = RightBranch.DepthOfNode + 1;
-			}
+						
+			//if(LeftBranch.DepthOfNode > RightBranch.DepthOfNode){
+			//	DepthOfNode = LeftBranch.DepthOfNode + 1;
+			//}else{
+			//	DepthOfNode = RightBranch.DepthOfNode + 1;
+			//}
 		}
 	}
 	
@@ -342,6 +342,7 @@ public class BinaryNode {
 			if( DepthOfNode > nodeToInsert.DepthOfNode){
 				
 				maxPossibleDepth = DepthOfNode - nodeToInsert.DepthOfNode;
+			
 				recurseIters = engine.NextInt(maxPossibleDepth);
 			}else{
 				/*
@@ -352,7 +353,7 @@ public class BinaryNode {
 			/*
 			 * Okay, this will start the recursion...and Insert the
 			 * NODE into the tree.
-			 */
+			 */			
 			InsertNode(nodeToInsert, recurseIters);
 		}
 	}

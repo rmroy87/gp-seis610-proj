@@ -128,6 +128,57 @@ public class Population {
 	  }
 	  
 	  /*
+	   * This constructor is used to Reject all but the top few keepers
+	   * and rebuild a stale population.
+	   */  
+	  public Population(int keeperCount, Population genX)
+	  { 
+		  	Settings settings = Settings.get();
+			
+		  	mutationCount   = genX.mutationCount;
+			crossoverCount  = genX.crossoverCount;
+			individualCount = genX.individualCount;
+			
+			/*
+			* calculate the number of individuals to mutate
+			*/
+			MutateSize = genX.MutateSize;
+			/*
+			* calculate the number of individuals to crossover
+			*/
+			CrossoverSize = genX.CrossoverSize;
+			  
+			individuals = new ArrayList<Individual>();
+			sortedIndividuals = new ArrayList<Individual>();
+			
+			/*
+			 * Copy over the desired number of the best keepers directly,
+			 * and then we will re-init the population.
+			 */
+			for(int i = 0; i < keeperCount; i++){			
+				individuals.add(genX.individuals.get(i));
+			}
+			
+			
+			N = settings.InitPopulationSize;
+			/*
+			 * Now sprinkle in the rest of the new people...
+			 */
+			for(int i = 0; i < (N - keeperCount); i++){			
+				individuals.add(new Individual());
+				logger.log(Level.FINEST, "Individual[" + i + "] - FIT: " + individuals.get(i).getFitnessValue() + " DEPTH: " + individuals.get(i).getIndividualTreeDepth() + " STRING: "  + individuals.get(i).ToString());
+			
+				individualCount++;
+			}
+			
+			/*
+			 * Sort he Population Array List, so that they are ordered based on
+			 * the best fitness value
+			 */	    
+			SortThePopulation(N);
+	  }
+	  
+	  /*
 	   * Sort the indivudals arraylist based on the best fitness order
 	   */
 	  private void SortThePopulation(int popSize)
@@ -333,9 +384,9 @@ public class Population {
 				
 				for(int i=0; i < (numKeepers - hashCount); i++){
 					randIndex = engine.NextInt(genX.individuals.size());
-					//individuals.add(genX.individuals.get(randIndex));
-					individuals.add(Mutator.Mutate(mutationCount, genX.individuals.get(randIndex)));
-					mutationCount++;
+					individuals.add(new Individual());
+					//individuals.add(Mutator.Mutate(mutationCount, genX.individuals.get(randIndex)));
+					//mutationCount++;
 					//newMutation = Mutator.Mutate(mutationCount, individuals.get(mutationList[i]));
 				}
 			}

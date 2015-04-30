@@ -87,7 +87,6 @@ public class BinaryTree {
 		 * Wedge that new NODE somewhere into the Binary Tree
 		 */
 		InsertBinaryNodeRandomly(modifiedNode);
-		//TreeRoot.InsertBinaryNodeRandomly(modifiedNode);		
 	}
 	
 	/*
@@ -103,8 +102,9 @@ public class BinaryTree {
 	*   a complete NODE, and not a reference to another node.
 	*/
 	public void InsertBinaryNodeRandomly(BinaryNode nodeToInsert){
+		Settings settings = Settings.get();
 		
-		if(TreeRoot.GetNodeDepth() == 0){
+		if((TreeRoot.GetNodeDepth() == 0) || (nodeToInsert.GetNodeDepth() == settings.MaxTreeDepth - 1 ) ){
 			TreeRoot = nodeToInsert;
 		}else{
 			TreeRoot.InsertBinaryNodeRandomly(nodeToInsert);
@@ -130,7 +130,8 @@ public class BinaryTree {
 	/*
 	* Resolve the Binary Tree for a given value of Y
 	*/
-	public int DepthofBinaryTree(){		
-		return TreeRoot.GetNodeDepth();
+	public int DepthofBinaryTree(){	
+		BinaryTreeDepth = TreeRoot.GetNodeDepth();
+		return BinaryTreeDepth;
 	}	
 }
