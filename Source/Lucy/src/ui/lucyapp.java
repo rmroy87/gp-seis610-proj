@@ -73,7 +73,7 @@ public class lucyapp {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 10));
-		frame.setBounds(100, 100, 630, 530);
+		frame.setBounds(100, 100, 610, 580);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ImageIcon icon = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("genetics.png")));
@@ -317,11 +317,11 @@ public class lucyapp {
 		
 		JScrollPane resultsp = new JScrollPane(textArea);
 		resultsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		resultsp.setSize(552, 103);
-		resultsp.setLocation(20, 370);
+		resultsp.setSize(552, 150);
+		resultsp.setLocation(20, 390);
 		card1.add(resultsp);
 		
-		progressBar.setBounds(289, 343, 283, 23);
+		progressBar.setBounds(21, 370, 551, 18);
 		
 	    ActionListener updateProBar = new ActionListener() {
 	    	public void actionPerformed(ActionEvent actionEvent) {
@@ -448,8 +448,8 @@ public class lucyapp {
 		lblFitnessValue.setText("-");
 		lblFitnessValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFitnessValue.setForeground(new Color(0, 128, 0));
-		lblFitnessValue.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblFitnessValue.setBounds(96, 352, 90, 14);
+		lblFitnessValue.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblFitnessValue.setBounds(157, 348, 126, 14);
 		card1.add(lblFitnessValue);
 		
 		JLabel lblFitness = new JLabel();
@@ -457,7 +457,7 @@ public class lucyapp {
 		lblFitness.setText("Fitness");
 		lblFitness.setForeground(Color.BLACK);
 		lblFitness.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblFitness.setBounds(96, 339, 90, 14);
+		lblFitness.setBounds(176, 330, 90, 14);
 		card1.add(lblFitness);
 		
 		JLabel lblGenerations = new JLabel();
@@ -465,14 +465,14 @@ public class lucyapp {
 		lblGenerations.setText("Generations");
 		lblGenerations.setForeground(Color.BLACK);
 		lblGenerations.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblGenerations.setBounds(190, 339, 80, 14);
+		lblGenerations.setBounds(318, 330, 80, 14);
 		card1.add(lblGenerations);
 		lblGenerationsValue.setText("-");
 		lblGenerationsValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGenerationsValue.setForeground(new Color(0, 128, 0));
 		lblGenerationsValue.setBackground(Color.DARK_GRAY);
-		lblGenerationsValue.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblGenerationsValue.setBounds(190, 352, 80, 14);
+		lblGenerationsValue.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblGenerationsValue.setBounds(318, 348, 80, 14);
 		card1.add(lblGenerationsValue);
 		
 		JPanel targetPanel = new JPanel();
@@ -489,6 +489,38 @@ public class lucyapp {
 		targetPanel.add(lblFunction);
 		targetPanel.setBounds(21, 131, 547, 38);
 		card1.add(targetPanel);
+		
+		JButton btnViewPopulation = new JButton("View Current");
+		btnViewPopulation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				if (gm != null)
+				{
+					
+					StringBuilder sbcurrent = new StringBuilder();
+					for(int i=1; i <= gm.currentPopulation.individuals.size(); i++)
+					{
+						sbcurrent.append("INDIVIDUAL " + (i) + ": " + 
+								gm.currentPopulation.individuals.get(i-1).ToString() + 
+								", FITNESS: " + gm.currentPopulation.individuals.get(i-1).getFitnessValue() + "\n");
+					}
+					System.out.println(sbcurrent.toString());
+					JTextArea textAreaCurrent = new JTextArea(20,50);
+					textAreaCurrent.setText(sbcurrent.toString());
+					textAreaCurrent.setEditable(false);
+				    JScrollPane currentScrollPane = new JScrollPane(textAreaCurrent);
+				    textAreaCurrent.setCaretPosition(0);
+						       
+				    // display them in a message dialog
+				    JOptionPane.showMessageDialog(frame, currentScrollPane);
+				    
+					
+				}
+			}
+		});
+		btnViewPopulation.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnViewPopulation.setBounds(457, 343, 111, 23);
+		card1.add(btnViewPopulation);
 		 
 		loadSettingsUI();
 
