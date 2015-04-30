@@ -3,10 +3,11 @@
 	<PopulationSize>100</PopulationSize>
 	<MutationProbability>0.1</MutationProbability>
 	<CrossoverProbability>0.5</CrossoverProbability>
-	<MaxDuration>30</MaxDuration>
-	<MaxIterations>100</MaxIterations>
+	<MaxDuration>10</MaxDuration>
+	<MaxIterations>0</MaxIterations>
 	<MaxTreeDepth>5</MaxTreeDepth>
 	<KeeperThreshhold>20</KeeperThreshhold>
+	<Function>(X^2 - 1) / 2</Function>
 	<Operators>
 		<Operator>
 			<value>+</value>
