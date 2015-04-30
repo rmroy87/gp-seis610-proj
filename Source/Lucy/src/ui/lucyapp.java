@@ -504,7 +504,6 @@ public class lucyapp {
 								gm.currentPopulation.individuals.get(i-1).ToString() + 
 								", FITNESS: " + gm.currentPopulation.individuals.get(i-1).getFitnessValue() + "\n");
 					}
-					System.out.println(sbcurrent.toString());
 					JTextArea textAreaCurrent = new JTextArea(20,50);
 					textAreaCurrent.setText(sbcurrent.toString());
 					textAreaCurrent.setEditable(false);
