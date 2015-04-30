@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2015-04-30T09:50:01</date>
+  <millis>1430405401778</millis>
+  <sequence>7</sequence>
+  <logger>ui.lucyapp</logger>
+  <level>CONFIG</level>
+  <class>ui.lucyapp$4$1</class>
+  <method>doInBackground</method>
+  <thread>22</thread>
+  <message>Logging config</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:01</date>
+  <millis>1430405401787</millis>
+  <sequence>8</sequence>
+  <logger>ui.lucyapp</logger>
+  <level>CONFIG</level>
+  <class>ui.lucyapp$4$1</class>
+  <method>doInBackground</method>
+  <thread>22</thread>
+  <message>Loading C:\UST\Software Engineering\ClassProject\build_04.30.2\.\settings.xml</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:01</date>
+  <millis>1430405401823</millis>
+  <sequence>9</sequence>
+  <logger>engine.Settings</logger>
+  <level>CONFIG</level>
+  <class>engine.Settings</class>
+  <method>logSettings</method>
+  <thread>22</thread>
+  <message>
+SETTINGS: 
+  INIT POPULATION SIZE: 500
+  POPULATION SIZE: 100
+  MUTATION PROBABILITY: 0.1
+  CROSSOVER PROBABILITY: 0.5
+  MAX DURATITION: 10
+  MAX ITERATIONS: 0
+  MAX TREE DEPTH: 5
+  KEEPER THRESHOLD: 20
+  TARGET FUNCTION: (X^2 + 1) / 2
+  OPERATNDS: 0,1,2,3,4,5,6,7,8,9,
+  OPERATORS: +,-,/,*,
+  TRAINING DATA: 
+		(-10.0,50.5)
+		(-9.0,41.0)
+		(-8.0,32.5)
+		(-7.0,25.0)
+		(-6.0,18.5)
+		(-5.0,13.0)
+		(-4.0,8.5)
+		(-3.0,5.0)
+		(-2.0,2.5)
+		(-1.0,1.0)
+		(0.0,0.5)
+		(1.0,1.0)
+		(2.0,2.5)
+		(3.0,5.0)
+		(4.0,8.5)
+		(5.0,13.0)
+		(6.0,18.5)
+		(7.0,25.0)
+		(8.0,32.5)
+		(9.0,41.0)
+		(10.0,50.5)
+
+</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:01</date>
+  <millis>1430405401828</millis>
+  <sequence>10</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>initializeEngine</method>
+  <thread>22</thread>
+  <message>ACTUAL START TIME:  2015/04/30 09:50:01</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:01</date>
+  <millis>1430405401834</millis>
+  <sequence>11</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>initializeEngine</method>
+  <thread>22</thread>
+  <message>TARGET STOP TIME:  2015/04/30 09:50:11</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:11</date>
+  <millis>1430405411829</millis>
+  <sequence>12</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>22</thread>
+  <message>ACTUAL STOP TIME:  2015/04/30 09:50:11</message>
+</record>
+<record>
+  <date>2015-04-30T09:50:11</date>
+  <millis>1430405411830</millis>
+  <sequence>13</sequence>
+  <logger>engine.GeneticProgramManager</logger>
+  <level>CONFIG</level>
+  <class>engine.GeneticProgramManager</class>
+  <method>execute</method>
+  <thread>22</thread>
+  <message>RESULT: (((X / (2 / X)) - (7 - 8)) - (3 / 6))
+FITNESS: 3.8146973E-6
+NUMBER OF GENERATIONS: 8003
+NUMBER OF SECONDS: 10</message>
+</record>
+</log>
