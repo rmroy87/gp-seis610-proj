@@ -12,6 +12,7 @@ public class GeneticProgramManager {
 	public float FitnessValue;
 	public int GenerationsValue;
 	private long startTime;
+	public Population currentPopulation;
 	
 	public String execute()
 	{
@@ -24,32 +25,32 @@ public class GeneticProgramManager {
 			int generation = 1;
 			
 			// Initial Population
-			Population pop = new Population();
+			currentPopulation = new Population();
 			
 			GenerationsValue = 0;
 			
 			// only show when it changes
-			FitnessValue = pop.getBestIndividual().getFitnessValue();
+			FitnessValue = currentPopulation.getBestIndividual().getFitnessValue();
 			lastFitnessValue = FitnessValue;
 
 			logger.log(Level.FINE, 
 					"BESTFIT FOR GENERATION " + generation +
-					": " + pop.getBestIndividual().ToString() + 
+					": " + currentPopulation.getBestIndividual().ToString() + 
 					", FITNESS: " + FitnessValue +
 					", TIME: " + ((System.currentTimeMillis() - startTime) / 1000)
 					);
 			
 			StringBuffer sb = new StringBuffer("POPULATION FOR GENERATION: " + generation + "\n");
-			for(int i=1; i <= pop.individuals.size(); i++)
+			for(int i=1; i <= currentPopulation.individuals.size(); i++)
 			{
 				sb.append("INDIVIDUAL " + (i-1) + ": " + 
-						pop.individuals.get(i-1).ToString() + 
-						", FITNESS: " + pop.individuals.get(i-1).getFitnessValue() + "\n");
+						currentPopulation.individuals.get(i-1).ToString() + 
+						", FITNESS: " + currentPopulation.individuals.get(i-1).getFitnessValue() + "\n");
 			}
 			logger.log(Level.FINER, sb.toString());
 			
 			while ((System.currentTimeMillis() < testStop) && 
-					pop.getBestIndividual().getFitnessValue() != 0)
+					currentPopulation.getBestIndividual().getFitnessValue() != 0)
 			{			
 				
 				if (Settings.get().MaxIterations != 0 && generation > Settings.get().MaxIterations)
@@ -57,37 +58,37 @@ public class GeneticProgramManager {
 				
 				// next generation
 				generation += 1;
-				pop = new Population(pop);
-				FitnessValue = pop.getBestIndividual().getFitnessValue();
+				currentPopulation = new Population(currentPopulation);
+				FitnessValue = currentPopulation.getBestIndividual().getFitnessValue();
 				GenerationsValue = generation;
 				
 				// Debug Logging - only show if fitness changes
-				FitnessValue = pop.getBestIndividual().getFitnessValue();
+				FitnessValue = currentPopulation.getBestIndividual().getFitnessValue();
 				if (FitnessValue != lastFitnessValue)
 				{
 					lastFitnessValue = FitnessValue;
 					logger.log(Level.FINE, 
 							"BESTFIT FOR GENERATION " + generation +
-							": " + pop.getBestIndividual().ToString() + 
+							": " + currentPopulation.getBestIndividual().ToString() + 
 							", FITNESS: " + FitnessValue +
 							", TIME: " + ((System.currentTimeMillis() - startTime) / 1000)
 							);
 				}
 				
 				sb = new StringBuffer("POPULATION FOR GENERATION: " + generation + "\n");
-				for(int i=1; i <= pop.individuals.size(); i++)
+				for(int i=1; i <= currentPopulation.individuals.size(); i++)
 				{
 					sb.append("INDIVIDUAL " + (i-1) + ": " + 
-							pop.individuals.get(i-1).ToString() + 
-							", FITNESS: " + pop.individuals.get(i-1).getFitnessValue() + "\n");
+							currentPopulation.individuals.get(i-1).ToString() + 
+							", FITNESS: " + currentPopulation.individuals.get(i-1).getFitnessValue() + "\n");
 				}
 				logger.log(Level.FINER, sb.toString());
 			}
 
 			logger.log(Level.CONFIG, "ACTUAL STOP TIME: " + MessageFormatter.dateTime(System.currentTimeMillis()));
 			
-			result = "RESULT: " + pop.getBestIndividual().ToString() + "\n" +
-					"FITNESS: " + pop.getBestIndividual().getFitnessValue() + "\n" +
+			result = "RESULT: " + currentPopulation.getBestIndividual().ToString() + "\n" +
+					"FITNESS: " + currentPopulation.getBestIndividual().getFitnessValue() + "\n" +
 					"NUMBER OF GENERATIONS: " + generation + "\n" +
 					"NUMBER OF SECONDS: " + ((System.currentTimeMillis() - startTime) / 1000);
 			logger.log(Level.CONFIG, result);
