@@ -18,7 +18,7 @@ public class Population {
 	  private int MutationSelectFromSize;
 	  
 	  //private static Individual[] individuals;    // population of Individuals
-	  ArrayList<Individual> individuals;
+	  public ArrayList<Individual> individuals;
 	  ArrayList<Individual> sortedIndividuals;
 	  private double[] probabilities;     // selection probabilities 
 	  private int[] population;           // selected Individuals
