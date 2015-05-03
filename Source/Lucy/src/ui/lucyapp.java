@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.Vector;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -28,6 +27,8 @@ public class lucyapp {
 	private JFormattedTextField maxDurationTextField = new JFormattedTextField();
 	private JFormattedTextField maxTreeDepthTextField = new JFormattedTextField();
 	private JFormattedTextField keeperTextField = new JFormattedTextField();
+	private JFormattedTextField staleTestTextField = new JFormattedTextField();
+	private JFormattedTextField stalePreservationsTextField = new JFormattedTextField();
 	private JTable operandtbl = new JTable();
 	private JTable operatortbl = new JTable();
 	private JTable trainingtbl = new JTable();
@@ -73,7 +74,7 @@ public class lucyapp {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 10));
-		frame.setBounds(100, 100, 610, 580);
+		frame.setBounds(100, 100, 610, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		ImageIcon icon = new ImageIcon ( Toolkit.getDefaultToolkit().getImage(getClass().getResource("genetics.png")));
@@ -218,7 +219,7 @@ public class lucyapp {
 		
 		JScrollPane operandsp = new JScrollPane(operandtbl);
 		operandsp.setEnabled(false);
-		operandsp.setSize(90, 132);
+		operandsp.setSize(90, 170);
 		operandsp.setLocation(261, 174);
 		operandsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		card1.add(operandsp);
@@ -230,7 +231,7 @@ public class lucyapp {
 		
 		JScrollPane operatorsp = new JScrollPane(operatortbl);
 		operatorsp.setEnabled(false);
-		operatorsp.setSize(90, 132);
+		operatorsp.setSize(90, 170);
 		operatorsp.setLocation(361, 174);
 		operatorsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		card1.add(operatorsp);
@@ -242,7 +243,7 @@ public class lucyapp {
 		
 		JScrollPane trainingsp = new JScrollPane(trainingtbl);
 		trainingsp.setEnabled(false);
-		trainingsp.setSize(107, 132);
+		trainingsp.setSize(107, 170);
 		trainingsp.setLocation(461, 174);
 		trainingsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		card1.add(trainingsp);
@@ -304,13 +305,13 @@ public class lucyapp {
 		lblConfiguration.setBackground(UIManager.getColor("InternalFrame.activeTitleBackground"));
 		lblConfiguration.setForeground(new Color(0, 102, 102));
 		lblConfiguration.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 17));
-		lblConfiguration.setBounds(10, 73, 488, 21);
+		lblConfiguration.setBounds(10, 68, 488, 21);
 		card1.add(lblConfiguration);
 		
 		JLabel lblExecution = new JLabel("Execution");
 		lblExecution.setForeground(new Color(0, 102, 102));
 		lblExecution.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 17));
-		lblExecution.setBounds(10, 317, 241, 21);
+		lblExecution.setBounds(10, 370, 162, 21);
 		card1.add(lblExecution);
 
 		textArea.setBackground(new Color(255, 255, 255));
@@ -318,10 +319,10 @@ public class lucyapp {
 		JScrollPane resultsp = new JScrollPane(textArea);
 		resultsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		resultsp.setSize(552, 150);
-		resultsp.setLocation(20, 390);
+		resultsp.setLocation(20, 450);
 		card1.add(resultsp);
 		
-		progressBar.setBounds(21, 370, 551, 18);
+		progressBar.setBounds(21, 430, 551, 18);
 		
 	    ActionListener updateProBar = new ActionListener() {
 	    	public void actionPerformed(ActionEvent actionEvent) {
@@ -336,7 +337,7 @@ public class lucyapp {
 		
 		JButton btnGoButton = new JButton("Execute");
 		btnGoButton.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnGoButton.setBounds(20, 343, 71, 23);
+		btnGoButton.setBounds(20, 403, 71, 23);
 		card1.add(btnGoButton);
 		btnGoButton.addActionListener(new ActionListener() {
 	         @Override
@@ -441,7 +442,7 @@ public class lucyapp {
 		lblLogging.setForeground(new Color(0, 102, 102));
 		lblLogging.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 17));
 		lblLogging.setBackground(SystemColor.activeCaption);
-		lblLogging.setBounds(10, 11, 488, 21);
+		lblLogging.setBounds(10, 8, 488, 21);
 		card1.add(lblLogging);
 
 		
@@ -449,7 +450,7 @@ public class lucyapp {
 		lblFitnessValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFitnessValue.setForeground(new Color(0, 128, 0));
 		lblFitnessValue.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFitnessValue.setBounds(157, 348, 126, 14);
+		lblFitnessValue.setBounds(157, 408, 126, 14);
 		card1.add(lblFitnessValue);
 		
 		JLabel lblFitness = new JLabel();
@@ -457,7 +458,7 @@ public class lucyapp {
 		lblFitness.setText("Fitness");
 		lblFitness.setForeground(Color.BLACK);
 		lblFitness.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblFitness.setBounds(176, 330, 90, 14);
+		lblFitness.setBounds(176, 390, 90, 14);
 		card1.add(lblFitness);
 		
 		JLabel lblGenerations = new JLabel();
@@ -465,14 +466,14 @@ public class lucyapp {
 		lblGenerations.setText("Generations");
 		lblGenerations.setForeground(Color.BLACK);
 		lblGenerations.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblGenerations.setBounds(318, 330, 80, 14);
+		lblGenerations.setBounds(318, 390, 80, 14);
 		card1.add(lblGenerations);
 		lblGenerationsValue.setText("-");
 		lblGenerationsValue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGenerationsValue.setForeground(new Color(0, 128, 0));
 		lblGenerationsValue.setBackground(Color.DARK_GRAY);
 		lblGenerationsValue.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblGenerationsValue.setBounds(318, 348, 80, 14);
+		lblGenerationsValue.setBounds(318, 408, 80, 14);
 		card1.add(lblGenerationsValue);
 		
 		JPanel targetPanel = new JPanel();
@@ -518,8 +519,28 @@ public class lucyapp {
 			}
 		});
 		btnViewPopulation.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnViewPopulation.setBounds(457, 343, 111, 23);
+		btnViewPopulation.setBounds(457, 403, 111, 23);
 		card1.add(btnViewPopulation);
+		
+		JLabel lblStaleTest = new JLabel("Stale Test:");
+		lblStaleTest.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblStaleTest.setBounds(21, 312, 147, 14);
+		card1.add(lblStaleTest);
+		
+		JLabel lblStalePreservations = new JLabel("Stale Preservations:");
+		lblStalePreservations.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblStalePreservations.setBounds(21, 330, 147, 14);
+		card1.add(lblStalePreservations);
+		
+		staleTestTextField.setText("0");
+		staleTestTextField.setEditable(false);
+		staleTestTextField.setBounds(176, 310, 49, 16);
+		card1.add(staleTestTextField);
+		
+		stalePreservationsTextField.setText("0");
+		stalePreservationsTextField.setEditable(false);
+		stalePreservationsTextField.setBounds(176, 328, 49, 16);
+		card1.add(stalePreservationsTextField);
 		 
 		loadSettingsUI();
 
@@ -541,6 +562,8 @@ public class lucyapp {
 		maxDurationTextField.setText(Float.toString(settings.MaxDuration));
 		maxTreeDepthTextField.setText(Integer.toString(settings.MaxTreeDepth));
 		keeperTextField.setText(Integer.toString(settings.KeeperThreshhold));
+		staleTestTextField.setText(Integer.toString(settings.StaleInjectionTest));
+		stalePreservationsTextField.setText(Integer.toString(settings.StaleInjectionPreserve));
 		lblFunction.setText(settings.Function);
 		
 		Vector<Vector> rowData;
