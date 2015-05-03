@@ -26,6 +26,8 @@ public class Settings extends Config
 	public ArrayList<OrderedPair> Training;
 	public static String lastFile;
 	public String Function;
+	public int StaleInjectionTest;
+	public int StaleInjectionPreserve;
 	
 	protected Settings() {
 		// Exists only to defeat instantiation.
@@ -80,6 +82,8 @@ public class Settings extends Config
 	    sb.append("  MAX TREE DEPTH: " + settings.MaxTreeDepth + "\n");
 	    sb.append("  KEEPER THRESHOLD: " + settings.KeeperThreshhold + "\n");
 	    sb.append("  TARGET FUNCTION: " + settings.Function + "\n");
+	    sb.append("  STALE INJECTION TEST: " + settings.StaleInjectionTest + "\n");
+	    sb.append("  STALE INJECTION PRESERVE: " + settings.StaleInjectionPreserve + "\n");
 
 	    sb.append("  OPERATNDS: ");
 		for(Operand operand : settings.Operands)  {
