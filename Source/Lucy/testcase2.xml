@@ -8,6 +8,8 @@
 	<MaxTreeDepth>5</MaxTreeDepth>
 	<KeeperThreshhold>5</KeeperThreshhold>
 	<Function>(X^2 - 1) / 2</Function>
+	<StaleInjectionTest>1000</StaleInjectionTest>
+	<StaleInjectionPreserve>1</StaleInjectionPreserve>
 	<Operators>
 		<Operator>
 			<value>+</value>
