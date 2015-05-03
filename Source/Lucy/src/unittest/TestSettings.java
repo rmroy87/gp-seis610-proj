@@ -14,7 +14,7 @@ public class TestSettings {
 	@Test
 	public void TestSettingsGet() throws SecurityException, FileNotFoundException, IOException {
 		
-		LogManager.getLogManager().readConfiguration(new FileInputStream("./logging.properties"));
+		LogManager.getLogManager().readConfiguration(new FileInputStream("./finerlog.properties"));
 				
 		Settings settings = Settings.get();
 		
